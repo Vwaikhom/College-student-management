@@ -1,1 +1,3 @@
-GET http://localhost:3001/studentProfile?page=1&npp=20
+//GET http://localhost:3001/sem1?page=1&npp=20
+
+GET http://localhost:3001/profile/sem1?page=1&npp=20

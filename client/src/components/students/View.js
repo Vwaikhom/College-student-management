@@ -4,7 +4,7 @@ import "./View.css";
 import axios from "axios";
 
 const View = () => {
-  const { id } = useParams();
+  const { course,sem,id } = useParams();
   const [student, setStudent] = useState({});
 
   useEffect(() => {
@@ -12,8 +12,9 @@ const View = () => {
   }, []);
 
   const LoadStudent = async () => {
+    console.log(course,id);
     const studentResult = await axios.get(
-      `http://localhost:3001/studentProfile/${id}`
+      `http://localhost:3001/profile/${course}/${sem}/${id}`
     );
     setStudent(studentResult.data[0]);
   };

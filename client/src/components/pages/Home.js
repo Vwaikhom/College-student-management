@@ -1,100 +1,47 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, NavLink } from "react-router-dom";
-import Pagination from "../layouts/pagination";
-
+import React, { useState, useContext, useEffect} from "react";
+//import { AcademicYearContext } from "../../YearProvider";
+//import { AcademicYearContext, YearProvider} from "../../YearProvider";
+import { AcademicYearContext } from "../../App";
 const Home = () => {
-  const [studentList, setStudentList] = useState([]);
-  const [filteredStudent, setFilteredStudent] = useState([]);
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [search, setSearch] = useState("");
-  const [totalPages, setTotalPages] = useState(1);
-  useEffect(() => {
-    loadStudents();
-  }, [page]);
 
-  const loadStudents = async () => {
-    const studentResult = await axios.get(
-      `http://localhost:3001/studentProfile?page=${page}&npp=${perPage}`
-    );
-    console.log(studentResult);
-    setStudentList(studentResult.data.results);
-    //setFilteredStudent(studentResult.data);
-    if(studentResult.data.pagination.numberofPages !== undefined){
-      setTotalPages(studentResult.data.pagination.numberofPages);
-    }
-  };
+  //const { year, setYear } = useContext(AcademicYearContext);
+  // const [thisyear,setThisYear] = useState('');
 
-  // useEffect(() => {
-  //   setFilteredStudent(
-  //     studentList.filter( student => {
-  //       if(search == ""){
-  //         return studentList;
-  //       } else{
-  //         return student.ID == search;
-  //       }
-  //     })
-  //   )
-  // },[search]);
+  // const updateYear = (e) => {
+  //   setThisYear(e.target.value);
+  // }
 
-  const paginate = (pageNumber) => {
-    setPage(pageNumber);
-  }
+  // const updateAcademicYear = (e) => {
+  //   e.preventDefault();
+  //   setYear(thisyear);
+  // }
 
+  // const state = useContext(AcademicYearContext);
+  // //const [academicYear,setAcademicYear] = useContext(AcademicYearContext);
+
+  // return (
+  //   <YearProvider>
+  //     <div className="App">
+  //       <h1>Manipur College Student Management</h1>
+  //       <form onSubmit={updateAcademicYear}>
+  //         <input type="text" name="year" value={thisyear} onChange={updateYear}/>
+  //         <button className="btn btn-primary btn-sm">Choose Academic Year</button>
+  //       </form>
+  //       <h3>{year}</h3>
+  //     </div>
+  //   </YearProvider>
+
+  // );
+
+  //const { year, setYear } = useAcademicYear();
+  //const state = useContext(AcademicYearContext);
+  const state = useContext(AcademicYearContext);
   return (
-    <div className="container-fluid">
-      {/* <input
-        type="text"
-        placeholder="Search"
-        onChange={(event) => setSearch(event.target.value)}
-      /> */}
-      <Pagination perPage={perPage} numberofPages={totalPages} paginate = {paginate}/>
-      <table className="table border shadow">
-        <thead className="thead-dark">
-          <tr className="table-dark">
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Roll Number</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Email</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {studentList.map((student, index) => (
-            <tr>
-              <th scope="row">{index + 1}</th>
-              <td>{student.STUDENT_NAME}</td>
-              <td>{student.ROLL_NO}</td>
-              <td>{student.STUDENT_MOBILE}</td>
-              <td>{student.EMAIL_ID}</td>
-              <td>
-                <div className="d-grid gap-2 d-md-flex justify-content-md-center">
-                  <NavLink
-                    className="btn btn-primary mr-2"
-                    to={`/studentProfile/${student.ID}`}
-                  >
-                    View
-                  </NavLink>
-                  <NavLink
-                    className="btn btn-success mr-2"
-                    to={`/UpdateStudentProfile/${student.ID}`}
-                  >
-                    Edit
-                  </NavLink>
-                  {/* <Link className="btn btn-secondary mr-2" to={`/subjectsCombination/${student.ID}`}>
-                    Add or Edit Subject Combination
-                  </Link> */}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination perPage={perPage} numberofPages={totalPages} paginate = {paginate}/>
-    </div>
-  );
+      <h1>{state.year}</h1>
+      // <button onClick={() => state.setYear('2021')}>
+      //   Current Year: {state.year}
+      // </button>
+  )
 };
 
 export default Home;

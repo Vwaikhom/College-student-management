@@ -1,66 +1,15 @@
 import { useState } from "react";
+import DatePicker from 'react-date-picker';
+import Select from 'react-select';
+import {Link} from 'react-router-dom';
+import NewSubjectCombo from "../pages/NewSubjectCombo";
 
 const Create = () => {
-  //let navigate = useNavigate();
-//   const [student, setStudent] = useState({
-//     STUDENT_NAME: "",
-//     UHID: "",
-//     SEX: "",
-//     DATE_FORM_SUB: "",
-//     PHOTO_URL: "",
-//     PRESENT_ADDRESS: "",
-//     PHONE_NO: "",
-//     PERMANENT_ADDRESS: "",
-//     FATHER_NAME: "",
-//     FATHER_OCCUPATION: "",
-//     MOTHER_NAME: "",
-//     MOTHER_OCCUPATION: "",
-//     ANNUAL_INCOME: "",
-//     CALIM_FEE_EXEMPTION: "",
-//     DOB: "",
-//     AADHAR_NO: "",
-//     EMAIL_ID: "",
-//     STUDENT_MOBILE: "",
-//     CATEGORY: "",
-//     UNIV_ROLL: "",
-//     CLASS12_BOARD: "",
-//     CLASS12_ROLL: "",
-//     PASSOUT_YEAR: "",
-//   });
-
-//   const {
-//     STUDENT_NAME,
-//     UHID,
-//     SEX,
-//     DATE_FORM_SUB,
-//     PHOTO_URL,
-//     PRESENT_ADDRESS,
-//     PHONE_NO,
-//     PERMANENT_ADDRESS,
-//     FATHER_NAME,
-//     FATHER_OCCUPATION,
-//     MOTHER_NAME,
-//     MOTHER_OCCUPATION,
-//     ANNUAL_INCOME,
-//     CALIM_FEE_EXEMPTION,
-//     DOB,
-//     AADHAR_NO,
-//     EMAIL_ID,
-//     STUDENT_MOBILE,
-//     CATEGORY,
-//     UNIV_ROLL,
-//     CLASS12_BOARD,
-//     CLASS12_ROLL,
-//     PASSOUT_YEAR,
-//   } = student;
-
-
-
   const [STUDENT_NAME,setStudentName] = useState("");
-  const [UHID,setUHID] = useState("");
+  const [UHID,setUHID] = useState(null);
   const [SEX,setSex] = useState("");
   const [ROLL_NO, setRollNo] = useState("");
-  const [DATE_FORM_SUB, setDateFormSub] = useState("");
+  const [DATE_FORM_SUB, setDateFormSub] = useState(new Date());
   const [PHOTO_URL, setPhotoURL] = useState("");
   const [PRESENT_ADDRESS, setPresentAddress] = useState("");
   const [PHONE_NO, setPhoneNo] = useState("");
@@ -69,9 +18,8 @@ const Create = () => {
   const [FATHER_OCCUPATION, setFatherOccupation] = useState("");
   const [MOTHER_NAME, setMotherName] = useState("");
   const [MOTHER_OCCUPATION, setMotherOccupation] = useState("");
-  const [ANNUAL_INCOME, setAnnualIncome] = useState("");
+  const [ANNUAL_INCOME, setAnnualIncome] = useState(0);
   const [CLAIM_FEE_EXEMPTION, setClaim] = useState("");
-  const [DOB, setDOB] = useState("");
   const [AADHAR_NO, setAadharNo] = useState("");
   const [EMAIL_ID, setEmail] = useState("");
   const [STUDENT_MOBILE, setStudentPhoneNo] = useState("");
@@ -79,23 +27,51 @@ const Create = () => {
   const [UNIV_ROLL, setUnivRoll] = useState("");
   const [CLASS12_BOARD, setClass12Board] = useState("");
   const [CLASS12_ROLL, setclass12Roll] = useState("");
-  const [PASSOUT_YEAR, setPassOutYear] = useState("");
-  //const [studentList,setStudentList] = useState([]);
+  const [PASSOUT_YEAR, setPassOutYear] = useState(0);
+  const [DOB, setDOB] = useState(new Date());
+  const [PROGRAM, setProgram] = useState("");
+  const [SUB, setHonoursSubject] = useState("");
+  const [isAdmin,setisAdmin] = useState(true);
+  const [insertID,setInsertID] = useState(null);
 
+  const subjects = [
+    {label: "Physics", value: "PHC", program:"BS"},
+    {label: "Chemistry", value:"CHM", program:"BS"},                           
+    {label: "Mathematics", value:"MAT", program:"BS"},                           
+    {label: "Botany", value:"BOT", program:"BS"},                           
+    {label: "Zoology", value:"ZOO", program:"BS"},                           
+    {label: "Biochemistry", value:"BCH", program:"BS"},                           
+    {label: "English", value:"ESL", program:"BA"},                           
+    {label: "Manipuri", value:"MSL", program:"BA"},                           
+    {label: "Economics", value:"ECO", program:"BA"},                           
+    {label: "Geography", value:"GEG", program:"BA"},                           
+    {label: "History", value:"HIS", program:"BA"} ,                          
+    {label: "Philosophy", value:"PHI", program:"BA"},                           
+    {label: "Physcholofy", value:"PSC", program:"BA"} ,                          
+    {label: "Education", value:"EDN", program:"BA"}                           
+  ]
 
-//   const onInputChange = (e) => {
-//     setStudent({ ...student, [e.target.name]: e.target.value });
-//     console.log(student);
-//   };
+  const handleSubjectChange = (subject) => {
+    console.log(subject);
+    setProgram(subject.program);
+    setHonoursSubject(subject.value);
+  }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    let DOBdate = DOB.toLocaleDateString(undefined, {timeZone: 'Asia/Kolkata'});
+    var DOBArray = DOBdate.split("/");
+    var finalDOB = DOBArray[2] + "-" + DOBArray[0] + "-" + DOBArray[1];
+    let DATEFORMDate = DATE_FORM_SUB.toLocaleDateString(undefined,{timeZone: 'Asia/Kolkata'});
+    var DATEFORMArray = DATEFORMDate.split("/");
+    var finalDATEFORM = DATEFORMArray[2] + "-" + DATEFORMArray[0] + "-" + DATEFORMArray[1];
+
     const student = {
         STUDENT_NAME,
         UHID,
-        ROLL_NO,
         SEX,
-        DATE_FORM_SUB,
+        finalDATEFORM,
         PHOTO_URL,
         PRESENT_ADDRESS,
         PHONE_NO,
@@ -106,30 +82,31 @@ const Create = () => {
         MOTHER_OCCUPATION,
         ANNUAL_INCOME,
         CLAIM_FEE_EXEMPTION,
-        DOB,
+        finalDOB,
         AADHAR_NO,
         EMAIL_ID,
         STUDENT_MOBILE,
         CATEGORY,
-        UNIV_ROLL,
         CLASS12_BOARD,
         CLASS12_ROLL,
         PASSOUT_YEAR,
+        PROGRAM,
+        SUB
     }
 
-    console.log(student);
-    fetch('http://localhost:3001/createStudentProfile', {
+    const response = await fetch(`http://localhost:3001/profile/`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(student),
-    }).then((res) => {
-      console.log(res);
-    });
+    })
+    const json = await response.json();
+    //console.log(json);
+    setInsertID(json);
   };
 
   return (
     <div className="container">
-      <div className="w-75 mx-auto shadow p-5">
+      <div className="w-75 mx-auto shadow p-5 mb-4">
         <h2 className="text-center mb-4">Add A Student</h2>
 
         <form onSubmit={handleSubmit}>
@@ -153,16 +130,6 @@ const Create = () => {
               onChange={(e) => setUHID(e.target.value)}
             />
           </div>
-          {/* <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter Roll Number"
-              name="ROLL_NO"
-              value={ROLL_NO}
-              onChange={(e) => setRollNo(e.target.value)}
-            />
-          </div> */}
           <div className="form-group mt-3">
             <input
               type="text"
@@ -174,14 +141,7 @@ const Create = () => {
             />
           </div>
           <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter Date of form submission"
-              name="DATE_FORM_SUB"
-              value={DATE_FORM_SUB}
-              onChange={(e) => setDateFormSub(e.target.value)}
-            />
+            <DatePicker onChange={setDateFormSub} value={DATE_FORM_SUB}/>
           </div>
           <div className="form-group mt-3">
             <input
@@ -270,7 +230,7 @@ const Create = () => {
               placeholder="Enter annual income"
               name="ANNUAL_INCOME"
               value={ANNUAL_INCOME}
-              onChange={(e) => setAnnualIncome(e.target.value)}
+              onChange={(e) => setAnnualIncome(parseInt(e.target.value))}
             />
           </div>
           <div className="form-group mt-3">
@@ -284,16 +244,10 @@ const Create = () => {
             />
           </div>
           <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter DOB"
-              name="DOB"
-              value={DOB}
-              onChange={(e) => setDOB(e.target.value)}
-            />
+            <DatePicker onChange={setDOB} value={DOB}/>
           </div>
           <div className="form-group mt-3">
+          <label>Aadhar Number</label>
             <input
               type="text"
               className="form-control form-control-lg"
@@ -333,16 +287,6 @@ const Create = () => {
               onChange={(e) => setCategory(e.target.value)}
             />
           </div>
-          {/* <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter university roll Number"
-              name="UNIV_ROLL"
-              value={UNIV_ROLL}
-              onChange={(e) => setUnivRoll(e.target.value)}
-            />
-          </div> */}
           <div className="form-group mt-3">
             <input
               type="text"
@@ -370,14 +314,23 @@ const Create = () => {
               placeholder="Enter passout year"
               name="PASSOUT_YEAR"
               value={PASSOUT_YEAR}
-              onChange={(e) => setPassOutYear(e.target.value)}
+              onChange={(e) => setPassOutYear(parseInt(e.target.value))}
             />
+          </div>
+          <div className="form-group mt-3">
+            <Select options={subjects} onChange={handleSubjectChange}/>
           </div>
           <button className="btn btn-primary btn-block mt-3">
             Add Student
           </button>
         </form>
+        {/* <div className="text-center mb-4">        
+            <Link className="btn btn-primary" id="button" to="/AddSubjectCombination1">
+                Add Subject Combination
+            </Link>
+        </div> */}
       </div>
+      {(isAdmin == true && insertID !== null) ? <NewSubjectCombo id={insertID}/> : null}
     </div>
   );
 };

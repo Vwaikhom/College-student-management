@@ -1,0 +1,64 @@
+Listening on port 3001
+Connected!
+Listening on port 3001
+Connected!
+Listening on port 3001
+Connected!
+true
+true
+Listening on port 3001
+Connected!
+true
+Listening on port 3001
+Connected!
+Listening on port 3001
+Connected!
+OperationalError: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1
+    at Packet.asError (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packets\packet.js:728:17)
+    at Query.execute (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\commands\command.js:29:26)
+    at Connection.handlePacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:456:32)
+    at PacketParser.onPacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:85:12)
+    at PacketParser.executeStart (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:92:25)
+    at Socket.emit (node:events:369:20)
+    at addChunk (node:internal/streams/readable:313:12)
+    at readableAddChunk (node:internal/streams/readable:288:9)
+    at Socket.Readable.push (node:internal/streams/readable:227:10)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+  cause: Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1
+      at Packet.asError (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packets\packet.js:728:17)
+      at Query.execute (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\commands\command.js:29:26)
+      at Connection.handlePacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:456:32)
+      at PacketParser.onPacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:85:12)
+      at PacketParser.executeStart (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packet_parser.js:75:16)
+      at Socket.<anonymous> (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:92:25)
+      at Socket.emit (node:events:369:20)
+      at addChunk (node:internal/streams/readable:313:12)
+      at readableAddChunk (node:internal/streams/readable:288:9)
+      at Socket.Readable.push (node:internal/streams/readable:227:10)
+      at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+    code: 'ER_PARSE_ERROR',
+    errno: 1064,
+    sqlState: '42000',
+    sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1",
+    sql: "undefined'%waikhom%'"
+  },
+  isOperational: true,
+  code: 'ER_PARSE_ERROR',
+  errno: 1064,
+  sqlState: '42000',
+  sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1",
+  sql: "undefined'%waikhom%'"
+}
+true
+Listening on port 3001
+Connected!
+Listening on port 3001
+Connected!
+true
+true
+Listening on port 3001
+Connected!
+true
+Listening on port 3001
+Connected!

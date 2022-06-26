@@ -1,0 +1,2 @@
+INSERT INTO academic_record (STUDENT_SEMESTER_ID, ACADEMIC_YEAR, PAPER_ID)
+SELECT sem.ID,sem.SEM_YEAR, p.PAPER_ID FROM student_semester sem, papers p WHERE p.COURSE = "CORE" AND sem.DSC = "PHC" AND p.SEMESTER = 1; 

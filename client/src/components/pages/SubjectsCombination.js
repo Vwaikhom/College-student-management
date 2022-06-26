@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Pagination from '../layouts/pagination';
+import { AcademicYearContext } from '../../App';
+import { ExportToCsv } from 'export-to-csv';
+import axios from 'axios';
 
 const SubjectsCombination = () => {
   const [studentSubjectCombo, setStudentSubjectCombo] = useState([]);
@@ -8,13 +11,38 @@ const SubjectsCombination = () => {
   const [page,setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [totalPages,setTotalPages] = useState(1);
+  //const [downloaddata, setDownloadData] = useState([]);
+  const { year } = useContext(AcademicYearContext);
+  const {sem} = useParams();
+  const state = useContext(AcademicYearContext);
+  const [searchTitle, setSearchTitle] = useState("");
+
+  const options = { 
+    fieldSeparator: ',',
+    filename: `Subject_Combination_Semester${sem}_${state.year}`,
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: `Subject_Combination_Semester${sem}_${state.year}`,
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+  };
+
+  const csvExporter = new ExportToCsv(options);
+
+  
 
   useEffect(() => {
     LoadPage();
-  }, [page]);
+  }, [page,state.year,sem]);
+
+  console.log(year);
 
   const LoadPage = async() => {
-    const response = await fetch(`http://localhost:3001/studentSubjectCombination?page=${page}&npp=${perPage}`);
+    const response = await fetch(`http://localhost:3001/subjectCombination/${state.year}/${sem}?page=${page}&npp=${perPage}`);
     const result = await response.json(); 
     console.log(result);
     setStudentSubjectCombo(result.results);
@@ -24,9 +52,22 @@ const SubjectsCombination = () => {
     }
   };
   
+  const findByTitle = async() => {
+    setPage(1);
+    console.log(searchTitle);
+    const result = await axios.get(`http://localhost:3001/subjectCombination/${state.year}/${sem}?title=${searchTitle}`);
+    console.log(result);
+    // const result = await axios.get(`http://localhost:3001/profile/${state.year}/${sem}?title=${searchTitle}`);
+    setStudentSubjectCombo(result.data.results);
+  }
+
   const paginate = (pageNumber) => {
     setPage(pageNumber);
   } 
+
+  const onChangeSearchTitle = (e) => {
+    setSearchTitle(e.target.value);
+  }
 
   const handleChange = (student) => (event) => {
     const newCombo = studentSubjectCombo.map(ele => ele.ID === student.ID ? {...ele, [event.target.name] : event.target.value} : ele)
@@ -39,7 +80,7 @@ const SubjectsCombination = () => {
     console.log(student);
     //const formData = new FormData();
     //formData.append()
-    const result = await fetch(`http://localhost:3001/subjectsUpdate/${student.ID}`, {
+    const result = await fetch(`http://localhost:3001/subjectCombination/${year}/${sem}/${student.ID}`, {
       method: 'POST',
       headers:{"Content-type": "application/json"},
       body: JSON.stringify({"data" : student}) 
@@ -49,8 +90,39 @@ const SubjectsCombination = () => {
     console.log(response);
   }
 
+  const handleDownload = async() => {
+    const result = await fetch(`http://localhost:3001/download/subjectCombination/${sem}/${state.year}`);
+    const res = await result.json();
+    // console.log(res);
+    // setDownloadData(res);
+    csvExporter.generateCsv(res);
+  }
+
   return (
     <div className="container-fluid">
+      <div className="col-sm-8">
+        <div className="input-group mb-3 mt-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by title"
+            value={searchTitle}
+            onChange={onChangeSearchTitle}
+          />
+          <div className="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button
+              className="btn btn-outline-secondary ml-2"
+              type="button"
+              onClick={findByTitle}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="d-grid gap-2 d-md-flex mt-3">
+        <button className="btn btn-primary mr-2" onClick={handleDownload}>Download</button>
+      </div>
       <Pagination perPage={perPage} numberofPages={totalPages} paginate = {paginate}/>
       <table className="table table-bordered">
         <thead className="thead-dark">
@@ -69,10 +141,14 @@ const SubjectsCombination = () => {
               <td>{student.ID}</td>
               <td>
                 <div className="d-grid gap-2 d-md-flex justify-content-left">
-                  <input type="text" name = "SUB_CODE1" value={student.SUB_CODE1!==null ? student.SUB_CODE1 : ""} onChange={handleChange(student)} />  
-                  <input type="text" name = "SUB_CODE2" value={student.SUB_CODE2!==null ? student.SUB_CODE2 : ""} onChange={handleChange(student)} />  
-                  <input type="text" name = "SUB_CODE3" value={student.SUB_CODE3!==null ? student.SUB_CODE3 : ""} onChange={handleChange(student)} />  
-                  <input type="text" name = "SUB_CODE_FC" value={student.SUB_CODE_FC!==null ? student.SUB_CODE_FC : ""} onChange={handleChange(student)} />  
+                  {/* <input type="text" placeholder="DSC" name = "DSC" value={student.DSC!==null ? student.DSC : ""}  />  */}
+                  {student.DSC}
+                  { (sem === 5 || sem === 6 || sem === 7 || sem === 8 ) ? <input type="text" placeholder="DSE" name = "DSE" value={student.DSE!==null ? student.DSE : ""} onChange={handleChange(student)} />  : null}
+                  { (sem === 3 || sem === 4 || sem === 5 || sem == 6 || sem === 7 || sem === 8) ?<input type="text" placeholder="GEC" name = "GEC" value={student.GEC!==null ? student.GEC : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === 1 || sem === 2) ? <input type="text" placeholder="AECC" name = "AECC" value={student.AECC!==null ? student.AECC : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === 1 || sem === 2)? <input type="text" placeholder="SEC" name = "SEC" value={student.SEC!==null ? student.SEC : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === 1 || sem === 3 || sem === 4 || sem === 5 || sem === 6)?<input type="text" placeholder="VAC1" name = "VAC1" value={student.VAC1!==null ? student.VAC1 : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === 1 || sem === 2)?<input type="text" placeholder="VAC2" name = "VAC2" value={student.VAC2!==null ? student.VAC2 : ""} onChange={handleChange(student)} />  : null}
                   <button className='btn btn-primary mr-2' onClick={handleUpdate(student)}>Update</button>
                 </div>
               </td>
@@ -84,103 +160,4 @@ const SubjectsCombination = () => {
     </div>
   );
 }
-
-// const SubjectsCombination = () => {
-//     const  {id}  = useParams();
-//     console.log(id);
-//     const [subjects, setSubjects] = useState({
-//         SUB_CODE1: "",
-//         SUB_CODE2: "",
-//         SUB_CODE3: "",
-//         SUB_CODE_FC: ""
-//     });
-
-//     const {
-//         SUB_CODE1,
-//         SUB_CODE2,
-//         SUB_CODE3,
-//         SUB_CODE_FC
-//     } = subjects;
-
-//     useEffect(() => {
-//         LoadSubjects();
-//     },[])
-
-//     const LoadSubjects = async() => {
-//         const response = await fetch(`http://localhost:3001/subjects/${id}`);
-//         const result = await (response.json());
-//         console.log(result);
-//         setSubjects(result);
-//     }
-
-//     const onInputChange = e => {
-//         setSubjects({ ...subjects, [e.target.name]: e.target.value });
-//       };
-
-//     const onSubmit = async e => {
-//         e.preventDefault();
-//         console.log(subjects);
-//         const result = await fetch(`http://localhost:3001/subjectsUpdate/${id}`, {
-//             method: 'POST',
-//             headers:{"Content-type": "application/json"},
-//             body: JSON.stringify({"data" : subjects})
-//         });
-//         console.log(result);
-//     };
-
-//     return(
-//         <div className="container">
-//         <div className="w-75 mx-auto shadow p-5">
-//           <h2 className="text-center mb-4">Student Id: {id}</h2>
-  
-//           <form onSubmit={e => onSubmit(e)}>
-//             <div className="form-group mt-3">
-//               <input
-//                 type="text"
-//                 className="form-control form-control-lg"
-//                 placeholder="Enter Subject Code 1"
-//                 name="SUB_CODE1"
-//                 value={SUB_CODE1}
-//                 onChange={e => onInputChange(e)}/>
-//             </div>
-  
-//             <div className="form-group mt-3">
-//               <input
-//                 type="text"
-//                 className="form-control form-control-lg"
-//                 placeholder="Enter Subject Code 2"
-//                 name="SUB_CODE2"
-//                 value={SUB_CODE2}
-//                 onChange={e => onInputChange(e)}
-//               />
-//             </div>
-//             <div className="form-group mt-3">
-//               <input
-//                 type="text"
-//                 className="form-control form-control-lg"
-//                 placeholder="Enter Subject Code 3"
-//                 name="SUB_CODE3"
-//                 value={SUB_CODE3}
-//                 onChange={e => onInputChange(e)}
-//               />
-//             </div>
-//             <div className="form-group mt-3">
-//               <input
-//                 type="text"
-//                 className="form-control form-control-lg"
-//                 placeholder="Enter Subject Code FC"
-//                 name="SUB_CODE_FC"
-//                 value={SUB_CODE_FC}
-//                 onChange={e => onInputChange(e)}
-//               />
-//             </div>
-//             <button className="btn btn-primary btn-block mt-3">
-//               Update
-//             </button>
-//           </form>
-//         </div>
-//       </div>
-//     );
-// }
- 
 export default SubjectsCombination;

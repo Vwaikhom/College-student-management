@@ -1,0 +1,148 @@
+2022-06-04 14:39:05 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-04 14:39:05 - Started 3836
+2022-06-04 14:43:07 - Stopping collegedbmanagementserver.exe
+2022-06-04 14:43:07 - ProcessKill 3836
+2022-06-04 14:43:07 - Shutdown exception
+Message:A system shutdown is in progress.
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2022-06-04 14:43:41 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-04 14:43:41 - Started 5024
+2022-06-04 21:34:20 - Stopping collegedbmanagementserver.exe
+2022-06-04 21:34:20 - ProcessKill 5024
+2022-06-04 21:34:20 - Found child process: 5100 Name: conhost.exe
+2022-06-04 21:34:20 - Found child process: 5520 Name: node.exe
+2022-06-04 21:34:20 - Stopping process 5100
+2022-06-04 21:34:20 - Send SIGINT 5100
+2022-06-04 21:34:20 - SIGINT to 5100 failed - Killing as fallback
+2022-06-04 21:34:20 - Stopping process 5520
+2022-06-04 21:34:20 - Send SIGINT 5520
+2022-06-04 21:34:20 - SIGINT to 5520 failed - Killing as fallback
+2022-06-04 21:34:20 - Stopping process 5024
+2022-06-04 21:34:20 - Send SIGINT 5024
+2022-06-04 21:34:20 - SIGINT to 5024 failed - Killing as fallback
+2022-06-04 21:34:20 - Finished collegedbmanagementserver.exe
+2022-06-04 21:57:37 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-04 21:57:37 - Started 9880
+2022-06-06 16:16:49 - Stopping collegedbmanagementserver.exe
+2022-06-06 16:16:49 - ProcessKill 9880
+2022-06-06 16:16:49 - Found child process: 13072 Name: conhost.exe
+2022-06-06 16:16:49 - Found child process: 9524 Name: node.exe
+2022-06-06 16:16:49 - Stopping process 13072
+2022-06-06 16:16:49 - Send SIGINT 13072
+2022-06-06 16:16:49 - SIGINT to 13072 failed - Killing as fallback
+2022-06-06 16:16:49 - Stopping process 9524
+2022-06-06 16:16:49 - Send SIGINT 9524
+2022-06-06 16:16:49 - SIGINT to 9524 failed - Killing as fallback
+2022-06-06 16:16:49 - Stopping process 9880
+2022-06-06 16:16:49 - Send SIGINT 9880
+2022-06-06 16:16:49 - SIGINT to 9880 failed - Killing as fallback
+2022-06-06 16:16:49 - Finished collegedbmanagementserver.exe
+2022-06-06 16:17:03 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-06 16:17:03 - Started 11956
+2022-06-07 06:40:43 - Stopping collegedbmanagementserver.exe
+2022-06-07 06:40:43 - ProcessKill 11956
+2022-06-07 06:40:43 - Found child process: 11212 Name: conhost.exe
+2022-06-07 06:40:43 - Found child process: 2656 Name: node.exe
+2022-06-07 06:40:43 - Stopping process 11212
+2022-06-07 06:40:43 - Send SIGINT 11212
+2022-06-07 06:40:43 - SIGINT to 11212 failed - Killing as fallback
+2022-06-07 06:40:43 - Stopping process 2656
+2022-06-07 06:40:43 - Send SIGINT 2656
+2022-06-07 06:40:43 - SIGINT to 2656 failed - Killing as fallback
+2022-06-07 06:40:43 - Stopping process 11956
+2022-06-07 06:40:43 - Send SIGINT 11956
+2022-06-07 06:40:43 - SIGINT to 11956 failed - Killing as fallback
+2022-06-07 06:40:43 - Finished collegedbmanagementserver.exe
+2022-06-07 06:40:52 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-07 06:40:52 - Started 17188
+2022-06-07 06:46:04 - Stopping collegedbmanagementserver.exe
+2022-06-07 06:46:04 - ProcessKill 17188
+2022-06-07 06:46:04 - Found child process: 18204 Name: conhost.exe
+2022-06-07 06:46:04 - Found child process: 4556 Name: node.exe
+2022-06-07 06:46:04 - Stopping process 18204
+2022-06-07 06:46:04 - Send SIGINT 18204
+2022-06-07 06:46:04 - SIGINT to 18204 failed - Killing as fallback
+2022-06-07 06:46:04 - Stopping process 4556
+2022-06-07 06:46:04 - Send SIGINT 4556
+2022-06-07 06:46:04 - SIGINT to 4556 failed - Killing as fallback
+2022-06-07 06:46:04 - Stopping process 17188
+2022-06-07 06:46:04 - Send SIGINT 17188
+2022-06-07 06:46:04 - SIGINT to 17188 failed - Killing as fallback
+2022-06-07 06:46:04 - Finished collegedbmanagementserver.exe
+2022-06-07 06:46:12 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-07 06:46:12 - Started 16736
+2022-06-07 06:52:21 - Stopping collegedbmanagementserver.exe
+2022-06-07 06:52:21 - ProcessKill 16736
+2022-06-07 06:52:21 - Found child process: 9416 Name: conhost.exe
+2022-06-07 06:52:21 - Found child process: 2440 Name: node.exe
+2022-06-07 06:52:21 - Stopping process 9416
+2022-06-07 06:52:21 - Send SIGINT 9416
+2022-06-07 06:52:21 - SIGINT to 9416 failed - Killing as fallback
+2022-06-07 06:52:21 - Stopping process 2440
+2022-06-07 06:52:21 - Send SIGINT 2440
+2022-06-07 06:52:21 - SIGINT to 2440 failed - Killing as fallback
+2022-06-07 06:52:21 - Stopping process 16736
+2022-06-07 06:52:21 - Send SIGINT 16736
+2022-06-07 06:52:21 - SIGINT to 16736 failed - Killing as fallback
+2022-06-07 06:52:21 - Finished collegedbmanagementserver.exe
+2022-06-07 06:52:29 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-07 06:52:29 - Started 12672
+2022-06-07 06:56:09 - Stopping collegedbmanagementserver.exe
+2022-06-07 06:56:09 - ProcessKill 12672
+2022-06-07 06:56:09 - Found child process: 10072 Name: conhost.exe
+2022-06-07 06:56:09 - Found child process: 2656 Name: node.exe
+2022-06-07 06:56:09 - Stopping process 10072
+2022-06-07 06:56:09 - Send SIGINT 10072
+2022-06-07 06:56:09 - SIGINT to 10072 failed - Killing as fallback
+2022-06-07 06:56:09 - Stopping process 2656
+2022-06-07 06:56:09 - Send SIGINT 2656
+2022-06-07 06:56:09 - SIGINT to 2656 failed - Killing as fallback
+2022-06-07 06:56:09 - Stopping process 12672
+2022-06-07 06:56:09 - Send SIGINT 12672
+2022-06-07 06:56:09 - SIGINT to 12672 failed - Killing as fallback
+2022-06-07 06:56:09 - Finished collegedbmanagementserver.exe
+2022-06-07 06:56:13 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-07 06:56:13 - Started 9200
+2022-06-07 15:49:06 - Stopping collegedbmanagementserver.exe
+2022-06-07 15:49:06 - ProcessKill 9200
+2022-06-07 15:49:06 - Found child process: 15444 Name: conhost.exe
+2022-06-07 15:49:06 - Found child process: 13164 Name: node.exe
+2022-06-07 15:49:06 - Stopping process 15444
+2022-06-07 15:49:06 - Send SIGINT 15444
+2022-06-07 15:49:06 - SIGINT to 15444 failed - Killing as fallback
+2022-06-07 15:49:06 - Stopping process 13164
+2022-06-07 15:49:06 - Send SIGINT 13164
+2022-06-07 15:49:06 - SIGINT to 13164 failed - Killing as fallback
+2022-06-07 15:49:06 - Stopping process 9200
+2022-06-07 15:49:06 - Send SIGINT 9200
+2022-06-07 15:49:06 - SIGINT to 9200 failed - Killing as fallback
+2022-06-07 15:49:06 - Finished collegedbmanagementserver.exe
+2022-06-07 15:49:10 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-07 15:49:10 - Started 16936
+2022-06-10 06:56:26 - Stopping collegedbmanagementserver.exe
+2022-06-10 06:56:26 - ProcessKill 16936
+2022-06-10 06:56:26 - Found child process: 3068 Name: conhost.exe
+2022-06-10 06:56:26 - Found child process: 9508 Name: node.exe
+2022-06-10 06:56:26 - Stopping process 3068
+2022-06-10 06:56:26 - Send SIGINT 3068
+2022-06-10 06:56:26 - SIGINT to 3068 failed - Killing as fallback
+2022-06-10 06:56:26 - Stopping process 9508
+2022-06-10 06:56:26 - Send SIGINT 9508
+2022-06-10 06:56:26 - SIGINT to 9508 failed - Killing as fallback
+2022-06-10 06:56:26 - Stopping process 16936
+2022-06-10 06:56:26 - Send SIGINT 16936
+2022-06-10 06:56:26 - SIGINT to 16936 failed - Killing as fallback
+2022-06-10 06:56:26 - Finished collegedbmanagementserver.exe
+2022-06-19 10:15:39 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-19 10:15:39 - Started 5064
+2022-06-25 15:54:12 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-06-25 15:54:12 - Started 5496

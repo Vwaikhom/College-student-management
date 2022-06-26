@@ -1,0 +1,27 @@
+{
+  "SQLQueries": { 
+     "models": 
+        [{  "modelName": "student-profile",
+            "Queires":{
+                "pagination": ["SELECT COUNT(*) AS numRows FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?", "SELECT s.* FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?"],  
+                "create": "INSERT INTO student_profile (UHID,STUDENT_NAME,SEX,DATE_FORM_SUB,PHOTO_URL,PRESENT_ADDRESS,PHONE_NO,PERMANENT_ADDRESS, FATHER_NAME,FATHER_OCCUPATION, MOTHER_NAME,MOTHER_OCCUPATION,ANNUAL_INCOME,CLAIM_FEE_EXEMPTION,DOB,AADHAR_NO,EMAIL_ID,STUDENT_MOBILE,CATEGORY, CLASS12_BOARD, CLASS12_ROLL,PASSOUT_YEAR) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "getAll": "SELECT * FROM student_profile",
+                "viewID": "SELECT * FROM student_profile s LEFT JOIN student_semester p ON s.ID = p.STUDENT_PROFILE_ID WHERE s.ID = ?",
+                "update": "UPDATE student_profile SET UHID = ?,STUDENT_NAME = ?,SEX = ?,DATE_FORM_SUB = ?,PHOTO_URL = ?,PRESENT_ADDRESS = ?,PHONE_NO = ?,PERMANENT_ADDRESS = ?, FATHER_NAME = ?,FATHER_OCCUPATION = ?, MOTHER_NAME = ?,MOTHER_OCCUPATION = ?,ANNUAL_INCOME = ?,CLAIM_FEE_EXEMPTION = ?,DOB = ?,AADHAR_NO = ?,EMAIL_ID = ?,STUDENT_MOBILE = ?,CATEGORY = ?,CLASS12_BOARD = ?, CLASS12_ROLL = ?,PASSOUT_YEAR = ? WHERE ID = ?",
+                "getID": "SELECT * FROM student_profile WHERE ID = ?"
+            }
+        },{
+            "modelName": "subjects",
+            "Queires":{
+                "getIDSubject": "SELECT * FROM student_semester WHERE STUDENT_PROFILE_ID = ?",
+                "UpdateSubject": "INSERT INTO student_semester (STUDENT_PROFILE_ID,  SUB_CODE1, SUB_CODE2, SUB_CODE3, SUB_CODE_FC) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE STUDENT_PROFILE_ID = VALUES(STUDENT_PROFILE_ID), SUB_CODE1 = VALUES(SUB_CODE1), SUB_CODE2 = VALUES(SUB_CODE2), SUB_CODE3 = VALUES(SUB_CODE3), SUB_CODE_FC = VALUES(SUB_CODE_FC)"
+            }
+        }, {
+            "modelName": "ExamFee",
+            "Queires":{
+                "pagination": ["SELECT count(*) as numRows FROM student_exam_fee", "SELECT s.STUDENT_NAME, s.ID, e.PAID,e.PHASE FROM student_profile s, student_exam_fee e WHERE s.ID = e.student_profile_ID"],
+                "update": "UPDATE student_exam_fee SET PAID = 'YES', PHASE = ? WHERE student_profile_ID = ?"
+            }
+        }]
+    }
+  }

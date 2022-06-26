@@ -1,0 +1,18 @@
+SQLQueries:
+  model: student-profile
+  functions: 
+    - function: pagination
+      query1: SELECT count(*) as numRows FROM student_profile
+      query2: SELECT * FROM student_profile LIMIT
+    - function: create
+      query: INSERT INTO student_profile (UHID,STUDENT_NAME,SEX,DATE_FORM_SUB,PHOTO_URL,PRESENT_ADDRESS,PHONE_NO,PERMANENT_ADDRESS, FATHER_NAME,FATHER_OCCUPATION, MOTHER_NAME,MOTHER_OCCUPATION,ANNUAL_INCOME,CLAIM_FEE_EXEMPTION,DOB,AADHAR_NO,EMAIL_ID,STUDENT_MOBILE,CATEGORY, CLASS12_BOARD, CLASS12_ROLL,PASSOUT_YEAR) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    - function: getAll
+      query: SELECT * FROM student_profile
+    - function: viewID
+      query: SELECT * FROM student_profile s, student_semester p WHERE s.ID = p.STUDENT_PROFILE_ID AND s.ID = ?
+    - function: update
+      query: UPDATE student_profile SET UHID = ?,STUDENT_NAME = ?,SEX = ?,DATE_FORM_SUB = ?,PHOTO_URL = ?,PRESENT_ADDRESS = ?,PHONE_NO = ?,PERMANENT_ADDRESS = ?, FATHER_NAME = ?,FATHER_OCCUPATION = ?, MOTHER_NAME = ?,MOTHER_OCCUPATION = ?,ANNUAL_INCOME = ?,CLAIM_FEE_EXEMPTION = ?,DOB = ?,AADHAR_NO = ?,EMAIL_ID = ?,STUDENT_MOBILE = ?,CATEGORY = ?,CLASS12_BOARD = ?, CLASS12_ROLL = ?,PASSOUT_YEAR = ? WHERE ID = ?
+    - function: getID
+      query: SELECT * FROM student_profile WHERE ID = ?
+
+
