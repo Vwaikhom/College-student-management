@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import Pagination from '../layouts/pagination';
 import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { ExportToCsv } from 'export-to-csv';
+import axios from "../../apis/api";
 
 const AcademicRecords = () => {
 
@@ -41,12 +41,11 @@ const AcademicRecords = () => {
     },[page,state.year]);
 
     const loadStudents = async() => {
-        const response = await fetch(`http://localhost:3001/AcademicRecords/${sem}/${state.year}?page=${page}&npp=${perPage}`);
-        const result = await response.json();
+        const result = await axios.get(`/AcademicRecords/${sem}/${state.year}?page=${page}&npp=${perPage}`);
         console.log(result);
-        setStudents(result.results)
-        if(result.pagination.numberofPages !== undefined){
-            setTotalPages(result.pagination.numberofPages);
+        setStudents(result.data.results)
+        if(result.data.pagination.numberofPages !== undefined){
+            setTotalPages(result.data.pagination.numberofPages);
           }
     }
 
@@ -63,9 +62,9 @@ const AcademicRecords = () => {
         //console.log(searchTitle);
         let url = "";
         if(isChecked == true){
-            url = `http://localhost:3001/SubjectWiseRecord/${sem}/${state.year}?subject=${searchSubject}&back=true`;
+            url = `/SubjectWiseRecord/${sem}/${state.year}?subject=${searchSubject}&back=true`;
         } else{
-            url = `http://localhost:3001/SubjectWiseRecord/${sem}/${state.year}?subject=${searchSubject}&back=false`;
+            url = `/SubjectWiseRecord/${sem}/${state.year}?subject=${searchSubject}&back=false`;
         }
         const result = await axios.get(url);
         //console.log(result);
@@ -93,25 +92,20 @@ const AcademicRecords = () => {
     }
 
     const handleMarksUpdate = (student) => async() => {
-        let result = await fetch(`http://localhost:3001/updateAcademicRecord/${sem}/${state.year}/${student.ID}`, {
-            method: 'PUT',
+        let result = await axios.put(`/updateAcademicRecord/${sem}/${state.year}/${student.ID}`, {
             headers: {"Content-type": "application/json"},
-            body: JSON.stringify({"data": student})
+            data:  student
         });
-        result = await result.json();
+        //result = await result.json();
         console.log(result);
     }
 
-    // const handleBackClear = (student) => {
-
-    // }
     const handleBackRegister = (student) => async() => {
-        let result = await fetch(`http://localhost:3001/BackStudents/back/${student.ID}`,{
-            method: 'POST',
+        let result = await axios.post(`/BackStudents/back/${student.ID}`,{
             headers: {"Content-type": "application/json"},
-            body: JSON.stringify({"data": student})
+            data: student
         });
-        result = await result.json();
+        //result = await result.json();
         console.log(result);
     }
 

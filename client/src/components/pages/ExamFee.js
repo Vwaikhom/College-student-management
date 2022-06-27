@@ -32,12 +32,12 @@ const ExamFee = () => {
 
 
     const loadStudents = async() => {
-        const response = await fetch(`http://localhost:3001/ExaminationFee/${sem}/${state.year}?page=${page}&npp=${perPage}`);
-        const result = await response.json();
-        console.log(result);
-        setStudents(result.results)
-        if(result.pagination.numberofPages !== undefined){
-            setTotalPages(result.pagination.numberofPages);
+        const response = await axios.get(`/ExaminationFee/${sem}/${state.year}?page=${page}&npp=${perPage}`);
+        //const result = await response.json();
+        console.log(response);
+        setStudents(response.data.results)
+        if(response.data.pagination.numberofPages !== undefined){
+            setTotalPages(response.data.pagination.numberofPages);
           }
     }
 
@@ -51,19 +51,17 @@ const ExamFee = () => {
       console.log(student);
       let flag = "";
 
-      if(student.EXM_FEE_PHASE < 0){
+      if(student.EXM_FEE_PHASE <= 0){
         flag = "UNPAID";
       } else{
         flag = "PAID";
       }
 
-      const response = await fetch(`http://localhost:3001/ExaminationFee/${sem}/${state.year}/${student.STUDENT_ID}`, {
-          method: 'PUT',
-          headers:{"Content-type": "application/json"},
-          body: JSON.stringify(student) 
+      const response = await axios.put(`/ExaminationFee/${sem}/${state.year}/${student.STUDENT_ID}`, {
+          data: student
       });
-      const result = await response.json();
-      console.log(result);
+      //const result = await response.json();
+      console.log(response);
       const updated = students.map(ele => ele.STUDENT_ID === student.STUDENT_ID ? {...ele, EXM_FEE : flag} : ele)
       setStudents(updated);
     }
@@ -77,7 +75,7 @@ const ExamFee = () => {
     }
 
     const handleDownload = async() => {
-      const result = await fetch(`http://localhost:3001/download/examFee/${sem}/${state.year}`);
+      const result = await fetch(`/download/examFee/${sem}/${state.year}`);
       const res = await result.json();
       console.log(res);
       //setDownloadData(res);
@@ -91,7 +89,7 @@ const ExamFee = () => {
     const findByTitle = async() => {
       setPage(1);
       console.log(searchTitle);
-      const result = await axios.get(`http://localhost:3001/ExaminationFee/${sem}/${state.year}?title=${searchTitle}`);
+      const result = await axios.get(`/ExaminationFee/${sem}/${state.year}?title=${searchTitle}`);
       console.log(result);
       setStudents(result.data.results);
     }
@@ -122,9 +120,6 @@ const ExamFee = () => {
         <button className="btn btn-primary mr-2" onClick={handleDownload}>Download</button>
       </div>
       <Pagination perPage={perPage} numberofPages={totalPages} paginate = {paginate}/>
-      <div className="d-grid gap-2 d-md-flex justify-content-left">
-        <input type="text" name='search' placeholder='ID or Name'/>
-      </div>
       <table className="table table-bordered">
         <thead className="thead-dark">
           <tr className="table-dark">

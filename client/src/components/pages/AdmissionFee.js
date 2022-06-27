@@ -3,7 +3,7 @@ import Pagination from '../layouts/pagination';
 import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
 import { ExportToCsv } from 'export-to-csv';
-import axios from 'axios';
+import axios from '../../apis/api';
 
 const AdmissionFee = () => {
 
@@ -32,12 +32,12 @@ const AdmissionFee = () => {
     const csvExporter = new ExportToCsv(options);
 
     const loadStudents = async() => {
-        const response = await fetch(`http://localhost:3001/AdmissionFee/${sem}/${state.year}?page=${page}&npp=${perPage}`);
-        const result = await response.json();
-        console.log(result);
-        setStudents(result.results)
-        if(result.pagination.numberofPages !== undefined){
-            setTotalPages(result.pagination.numberofPages);
+        const response = await axios.get(`/AdmissionFee/${sem}/${state.year}?page=${page}&npp=${perPage}`);
+        //const result = await response.json();
+        console.log(response);
+        setStudents(response.data.results)
+        if(response.data.pagination.numberofPages !== undefined){
+            setTotalPages(response.data.pagination.numberofPages);
           }
     }
 
@@ -48,7 +48,7 @@ const AdmissionFee = () => {
     const findByTitle = async() => {
       setPage(1);
       console.log(searchTitle);
-      const result = await axios.get(`http://localhost:3001/AdmissionFee/${sem}/${state.year}?title=${searchTitle}`);
+      const result = await axios.get(`/AdmissionFee/${sem}/${state.year}?title=${searchTitle}`);
       console.log(result);
       setStudents(result.data.results);
     }
@@ -72,13 +72,11 @@ const AdmissionFee = () => {
       setStudents(newList)
       
       console.log(student);
-      const response = await fetch(`http://localhost:3001/AdmissionFee/${sem}/${state.year}/${student.STUDENT_ID}`, {
-          method: 'PUT',
-          headers:{"Content-type": "application/json"},
-          body: JSON.stringify(fee)
+      const response = await axios.put(`/AdmissionFee/${sem}/${state.year}/${student.STUDENT_ID}`, {
+          data: fee
       });
-      const result = await response.json();
-      console.log(result);
+      //const result = await response.json();
+      console.log(response);
       const updated = students.map(ele => ele.STUDENT_ID === student.STUDENT_ID ? {...ele, ADM_FEE : fee.flag} : ele)
       setStudents(updated);
     }
@@ -92,7 +90,7 @@ const AdmissionFee = () => {
     }
 
     const handleDownload = async() => {
-      const result = await fetch(`http://localhost:3001/download/admissionFee/${sem}/${state.year}`);
+      const result = await fetch(`/download/admissionFee/${sem}/${state.year}`);
       const res = await result.json();
       console.log(res);
       //setDownloadData(res);

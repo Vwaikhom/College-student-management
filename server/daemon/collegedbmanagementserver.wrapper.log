@@ -146,3 +146,17 @@ Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInter
 2022-06-19 10:15:39 - Started 5064
 2022-06-25 15:54:12 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\user\Desktop\collegedb\app\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
 2022-06-25 15:54:12 - Started 5496
+2022-06-26 15:32:57 - Stopping collegedbmanagementserver.exe
+2022-06-26 15:32:57 - ProcessKill 5496
+2022-06-26 15:32:57 - Found child process: 5516 Name: conhost.exe
+2022-06-26 15:32:57 - Found child process: 5844 Name: node.exe
+2022-06-26 15:32:57 - Stopping process 5516
+2022-06-26 15:32:57 - Send SIGINT 5516
+2022-06-26 15:32:57 - SIGINT to 5516 failed - Killing as fallback
+2022-06-26 15:32:57 - Stopping process 5844
+2022-06-26 15:32:57 - Send SIGINT 5844
+2022-06-26 15:32:57 - SIGINT to 5844 failed - Killing as fallback
+2022-06-26 15:32:57 - Stopping process 5496
+2022-06-26 15:32:58 - Send SIGINT 5496
+2022-06-26 15:32:58 - SIGINT to 5496 failed - Killing as fallback
+2022-06-26 15:32:58 - Finished collegedbmanagementserver.exe

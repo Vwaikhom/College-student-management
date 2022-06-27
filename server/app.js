@@ -310,16 +310,18 @@ app.put('/ExaminationFee/:sem/:year/:id', isAdmin, (req,res) => {
     let id = req.params.id;
     id = parseInt(id)
     const {year,sem} = req.params;
-    let {EXM_FEE_PHASE} = req.body;
+    //console.log(req.body);
+    let {EXM_FEE_PHASE} = req.body.data;
     EXM_FEE_PHASE = parseInt(EXM_FEE_PHASE);
 
     let flag = "";
-    if(EXM_FEE_PHASE < 0){
+
+    if(EXM_FEE_PHASE <= 0){
         flag = "UNPAID";   
     } else{
         flag = "PAID";
     }
-
+    //console.log(EXM_FEE_PHASE,flag,year,sem,id)
     queryAsync('UPDATE student_fee f JOIN student_profile s ON s.ID = f.STUDENT_PROFILE_ID JOIN student_semester sem ON f.STUDENT_SEMESTER_ID = sem.ID SET f.EXM_FEE = ? , f.EXM_FEE_PHASE = ? WHERE sem.SEM_YEAR = ? AND sem.SEMESTER = ? AND s.ID = ?', [flag,EXM_FEE_PHASE,year,sem,id]).
     then((result) => {
         console.log(result);
@@ -335,8 +337,9 @@ app.put('/AdmissionFee/:sem/:year/:id', isAdmin, (req,res) => {
     let id = req.params.id;
     id = parseInt(id);
     const {year,sem} = req.params;
-    let {flag} = req.body;
-    //console.log(flag);
+    console.log(req.body);
+    let flag = req.body.data.flag;
+    console.log(flag);
     queryAsync('UPDATE student_fee f JOIN student_profile s ON s.ID = f.STUDENT_PROFILE_ID JOIN student_semester sem ON f.STUDENT_SEMESTER_ID = sem.ID SET f.ADM_FEE = ? WHERE sem.SEM_YEAR = ? AND sem.SEMESTER = ? AND s.ID = ?', [flag,year,sem,id])
     .then((result) => {
         console.log(result);
@@ -353,6 +356,7 @@ app.post('/Promotion/:sem/:year/:id', (req,res) => {
     sem = parseInt(sem);
     year = parseInt(year);
     id = parseInt(id);
+    console.log(req.body);
 
     if(sem % 2 === 0){
         year = year + 1;
@@ -361,6 +365,7 @@ app.post('/Promotion/:sem/:year/:id', (req,res) => {
     sem = sem + 1;
 
     console.log(sem,year,id);
+
     queryAsync(`CALL PROMOTE(${sem}, ${year}, ${id})`)
     .then((result) => {
         console.log(result);
@@ -443,6 +448,7 @@ app.get('/SubjectWiseRecord/:sem/:year', (req,res) => {
 
 app.put('/updateAcademicRecord/:sem/:year/:id', (req,res) => {
     const {sem,year,id} = req.params;
+    //console.log(req.body.data.IA);
     const IA = req.body.data.IA;
     const EA = req.body.data.EA;
     let RESULT = req.body.data.RESULT;
@@ -489,11 +495,3 @@ app.post('/login', (req,res) => {
 app.listen(3001, () => {
     console.log("Listening on port 3001");
 })
-
-
-// const searchSubjectAndPaginate = function() {
-//     return async function(req,res,next){
-
-//         paginate()
-//     }
-//}

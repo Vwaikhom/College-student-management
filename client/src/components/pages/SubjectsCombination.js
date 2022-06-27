@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import Pagination from '../layouts/pagination';
 import { AcademicYearContext } from '../../App';
 import { ExportToCsv } from 'export-to-csv';
-import axios from 'axios';
+import axios from '../../apis/api';
 
 const SubjectsCombination = () => {
   const [studentSubjectCombo, setStudentSubjectCombo] = useState([]);
@@ -33,29 +33,24 @@ const SubjectsCombination = () => {
 
   const csvExporter = new ExportToCsv(options);
 
-  
-
   useEffect(() => {
     LoadPage();
   }, [page,state.year,sem]);
 
-  console.log(year);
-
   const LoadPage = async() => {
-    const response = await fetch(`http://localhost:3001/subjectCombination/${state.year}/${sem}?page=${page}&npp=${perPage}`);
-    const result = await response.json(); 
-    console.log(result);
-    setStudentSubjectCombo(result.results);
+    const response = await axios.get(`/subjectCombination/${state.year}/${sem}?page=${page}&npp=${perPage}`); 
+    console.log(response);
+    setStudentSubjectCombo(response.data.results);
 
-    if(result.pagination.numberofPages !== undefined){
-      setTotalPages(result.pagination.numberofPages);
+    if(response.data.pagination.numberofPages !== undefined){
+      setTotalPages(response.data.pagination.numberofPages);
     }
   };
   
   const findByTitle = async() => {
     setPage(1);
     console.log(searchTitle);
-    const result = await axios.get(`http://localhost:3001/subjectCombination/${state.year}/${sem}?title=${searchTitle}`);
+    const result = await axios.get(`/subjectCombination/${state.year}/${sem}?title=${searchTitle}`);
     console.log(result);
     // const result = await axios.get(`http://localhost:3001/profile/${state.year}/${sem}?title=${searchTitle}`);
     setStudentSubjectCombo(result.data.results);
@@ -80,20 +75,19 @@ const SubjectsCombination = () => {
     console.log(student);
     //const formData = new FormData();
     //formData.append()
-    const result = await fetch(`http://localhost:3001/subjectCombination/${year}/${sem}/${student.ID}`, {
-      method: 'POST',
+    const result = await axios.post(`/subjectCombination/${year}/${sem}/${student.ID}`, {
       headers:{"Content-type": "application/json"},
-      body: JSON.stringify({"data" : student}) 
+      data:  student
     });
 
-    const response = await result.json();
-    console.log(response);
+    //const response = await result.json();
+    console.log(result);
   }
 
   const handleDownload = async() => {
-    const result = await fetch(`http://localhost:3001/download/subjectCombination/${sem}/${state.year}`);
+    const result = await fetch(`/download/subjectCombination/${sem}/${state.year}`);
     const res = await result.json();
-    // console.log(res);
+    // console.log(result);
     // setDownloadData(res);
     csvExporter.generateCsv(res);
   }
@@ -141,14 +135,12 @@ const SubjectsCombination = () => {
               <td>{student.ID}</td>
               <td>
                 <div className="d-grid gap-2 d-md-flex justify-content-left">
-                  {/* <input type="text" placeholder="DSC" name = "DSC" value={student.DSC!==null ? student.DSC : ""}  />  */}
-                  {student.DSC}
-                  { (sem === 5 || sem === 6 || sem === 7 || sem === 8 ) ? <input type="text" placeholder="DSE" name = "DSE" value={student.DSE!==null ? student.DSE : ""} onChange={handleChange(student)} />  : null}
-                  { (sem === 3 || sem === 4 || sem === 5 || sem == 6 || sem === 7 || sem === 8) ?<input type="text" placeholder="GEC" name = "GEC" value={student.GEC!==null ? student.GEC : ""} onChange={handleChange(student)} />  : null}
-                  {(sem === 1 || sem === 2) ? <input type="text" placeholder="AECC" name = "AECC" value={student.AECC!==null ? student.AECC : ""} onChange={handleChange(student)} />  : null}
-                  {(sem === 1 || sem === 2)? <input type="text" placeholder="SEC" name = "SEC" value={student.SEC!==null ? student.SEC : ""} onChange={handleChange(student)} />  : null}
-                  {(sem === 1 || sem === 3 || sem === 4 || sem === 5 || sem === 6)?<input type="text" placeholder="VAC1" name = "VAC1" value={student.VAC1!==null ? student.VAC1 : ""} onChange={handleChange(student)} />  : null}
-                  {(sem === 1 || sem === 2)?<input type="text" placeholder="VAC2" name = "VAC2" value={student.VAC2!==null ? student.VAC2 : ""} onChange={handleChange(student)} />  : null}
+                  { (sem === "5" || sem === "6" || sem === "7" || sem === "8" ) ? <input type="text" placeholder="DSE" name = "DSE" value={student.DSE!==null ? student.DSE : ""} onChange={handleChange(student)} />  : null}
+                  { (sem === "3" || sem === "4" || sem === "5" || sem == "6" || sem === 7 || sem === "8") ?<input type="text" placeholder="GEC" name = "GEC" value={student.GEC!==null ? student.GEC : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === "1" || sem === "2") ? <input type="text" placeholder="AECC" name = "AECC" value={student.AECC!==null ? student.AECC : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === "1" || sem === "2")? <input type="text" placeholder="SEC" name = "SEC" value={student.SEC!==null ? student.SEC : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === "1" || sem === "3" || sem === "4" || sem === "5" || sem === "6")?<input type="text" placeholder="VAC1" name = "VAC1" value={student.VAC1!==null ? student.VAC1 : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === "1" || sem === "2")?<input type="text" placeholder="VAC2" name = "VAC2" value={student.VAC2!==null ? student.VAC2 : ""} onChange={handleChange(student)} />  : null}
                   <button className='btn btn-primary mr-2' onClick={handleUpdate(student)}>Update</button>
                 </div>
               </td>

@@ -49,6 +49,7 @@ router.route('/:id')
         const EA = req.body.data.EA;
         let sub = req.body.data.SUB_CODE;
         sub = `'${sub}'`; 
+        console.log(IA,EA,sub)
 
         if(req.query.cleared){
             queryAsync("UPDATE back_student SET BACK_CLEARED = 'Y' WHERE STUDENT_ID = ?", [id])

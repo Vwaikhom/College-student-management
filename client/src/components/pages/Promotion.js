@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import Pagination from '../layouts/pagination';
 import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
+import axios from "../../apis/api"
 
 const Promotion = () => {
     const [students, setStudents] = useState([]);
@@ -15,25 +16,23 @@ const Promotion = () => {
     const triggerDataFetch = () => setFetchData(t => !t);
 
     const loadStudents = async() => {
-        const response = await fetch(`http://localhost:3001/Promotion/${sem}/${state.year}?page=${page}&npp=${perPage}`);
-        const result = await response.json();
-        console.log(result);
-        setStudents(result.results)
-        if(result.pagination.numberofPages !== undefined){
-            setTotalPages(result.pagination.numberofPages);
+        const response = await axios.get(`/Promotion/${sem}/${state.year}?page=${page}&npp=${perPage}`);
+        //const result = await response.json();
+        console.log(response);
+        setStudents(response.data.results)
+        if(response.data.pagination.numberofPages !== undefined){
+            setTotalPages(response.data.pagination.numberofPages);
           }
     }
 
     const handlePromote = (student) => async(e) => {
         e.preventDefault();
         console.log(student);
-        const response = await fetch(`http://localhost:3001/Promotion/${sem}/${state.year}/${student.ID}`, {
-            method: 'POST',
-            headers:{"Content-type": "application/json"},
-            body: JSON.stringify(student) 
+        const response = await axios.post(`/Promotion/${sem}/${state.year}/${student.ID}`, {
+            data: student
         });
-        const result = await response.json();
-        console.log(result);
+        //const result = await response.json();
+        console.log(response);
         //setStudents({ ...students, })
         triggerDataFetch();
       }
@@ -48,13 +47,11 @@ const Promotion = () => {
           currYear = currYear + 1;  
         }
 
-        const response = await fetch(`http://localhost:3001/Demotion/${currSem}/${currYear}/${student.ID}`, {
-            method: 'POST',
-            headers:{"Content-type": "application/json"},
-            body: JSON.stringify(student) 
+        const response = await axios.post(`/Demotion/${currSem}/${currYear}/${student.ID}`, {
+            data: student
         });
-        const result = await response.json();
-        console.log(result);
+        //const result = await response.json();
+        console.log(response);
         triggerDataFetch();
       }
 

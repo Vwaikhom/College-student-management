@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Pagination from '../layouts/pagination';
 import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../apis/api';
 import { ExportToCsv } from 'export-to-csv';
 
 const BackStudents = () => {
@@ -39,12 +39,11 @@ const BackStudents = () => {
     },[page,state.year]);
 
     const loadStudents = async() => {
-        const response = await fetch(`http://localhost:3001/BackStudents`);
-        const result = await response.json();
-        console.log(result);
-        setStudents(result)
-        if(result.pagination.numberofPages !== undefined){
-            setTotalPages(result.pagination.numberofPages);
+        const response = await axios.get(`/BackStudents`);
+        console.log(response);
+        setStudents(response.data)
+        if(response.pagination.numberofPages !== undefined){
+            setTotalPages(response.pagination.numberofPages);
           }
     }
 
@@ -56,11 +55,11 @@ const BackStudents = () => {
         setPage(1);
         //console.log(searchTitle);
 
-        let result = await fetch(`http://localhost:3001/BackStudents?subject=${searchSubject}`);
-        //console.log(result);
-        result = await result.json();
+        let result = await axios.get(`/BackStudents?subject=${searchSubject}`);
+        console.log(result);
+        //result = await result.json();
 
-        setStudents(result);
+        setStudents(result.data);
     }
 
     const handleMarkChange = (student) => async(event) => {
@@ -69,22 +68,18 @@ const BackStudents = () => {
     }
 
     const handleBackClear = (student) => async() => {
-        let result = await fetch(`http://localhost:3001/BackStudents/${student.ID}?cleared=true`, {
-            method: 'PUT',
-            headers: {"Content-type": "application/json"},
-            body: JSON.stringify({"data" : student})
+        let result = await axios.put(`/BackStudents/${student.ID}?cleared=true`, {
+            data:  student
         });
-        result = await result.json();
+        //result = await result.json();
         console.log(result);
     }
 
     const handleBackMarksUpdate = (student) => async() => {
-        let result = await fetch(`http://localhost:3001/BackStudents/${student.ID}`, {
-            method: 'PUT',
-            headers: {"Content-type": "application/json"},
-            body: JSON.stringify({"data" : student})
+        let result = await axios.put(`/BackStudents/${student.ID}`, {
+            data:  student
         });
-        result = await result.json();
+        //result = await result.json();
         console.log(result);
     }
 

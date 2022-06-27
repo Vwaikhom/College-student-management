@@ -8,8 +8,8 @@ let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "s
 const pagination = sql.Queires.pagination;
 
 let query1 = "SELECT COUNT(*) AS numRows FROM student_semester WHERE SEMESTER = ? AND SEM_YEAR = ?";
-let query2 = "SELECT s.STUDENT_NAME, S.ID, sem.DSE, sem.DSC, sem.AECC, sem.SEC, sem.VAC1, sem.VAC2 FROM student_profile s INNER JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?" 
-let query3 = 'SELECT s.STUDENT_NAME, S.ID, sem.DSE, sem.DSC, sem.AECC, sem.SEC, sem.VAC1, sem.VAC2 FROM student_profile s INNER JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = 1 AND sem.SEM_YEAR = 2021 AND s.STUDENT_NAME LIKE '
+let query2 = "SELECT s.STUDENT_NAME, S.ID, sem.DSE, sem.DSC, sem.AECC, sem.SEC,sem.GEC, sem.VAC1, sem.VAC2 FROM student_profile s INNER JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?" 
+let query3 = 'SELECT s.STUDENT_NAME, S.ID, sem.DSE, sem.DSC, sem.AECC, sem.SEC,sem.GEC, sem.VAC1, sem.VAC2 FROM student_profile s INNER JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = 1 AND sem.SEM_YEAR = 2021 AND s.STUDENT_NAME LIKE '
 
 router.route('/:year/:sem')
     .get(paginate(query1, query2,query3), (req,res,next)=> {

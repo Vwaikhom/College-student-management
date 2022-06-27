@@ -3,6 +3,7 @@ import DatePicker from 'react-date-picker';
 import Select from 'react-select';
 import {Link} from 'react-router-dom';
 import NewSubjectCombo from "../pages/NewSubjectCombo";
+import axios from "../../apis/api";
 
 const Create = () => {
   const [STUDENT_NAME,setStudentName] = useState("");
@@ -94,14 +95,12 @@ const Create = () => {
         SUB
     }
 
-    const response = await fetch(`http://localhost:3001/profile/`, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(student),
+    const response = await axios.post(`/profile/`, {
+      data: student
     })
-    const json = await response.json();
+    //const json = await response.json();
     //console.log(json);
-    setInsertID(json);
+    setInsertID(response);
   };
 
   return (

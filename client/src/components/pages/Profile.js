@@ -1,22 +1,21 @@
 import React, { useState, useEffect,useContext } from "react";
-import axios from "axios";
 import { Link, NavLink, useParams, useSearchParams } from "react-router-dom";
 import Pagination from "../layouts/pagination";
 import { AcademicYearContext } from "../../App";
 import { ExportToCsv } from 'export-to-csv';
+import axios from '../../apis/api';
 
 const Profile = () => {
   const [studentList, setStudentList] = useState([]);
-  const [downloaddata, setDownloadData] = useState([]);
-  const [filteredStudent, setFilteredStudent] = useState([]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
-  const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
 
+
   const state = useContext(AcademicYearContext);
   const {sem} = useParams();
+
 
   useEffect(() => {
     loadStudents();
@@ -37,35 +36,11 @@ const Profile = () => {
 
   const csvExporter = new ExportToCsv(options);
 
-  const headers = [
-    {label: 'ID', key: 'ID'},
-    {label: 'Name', key: 'STUDENT_NAME'},
-    {label: 'DATE_FORM_SUB', key: 'DATE_FORM_SUB'},
-    {label: 'Present Address', key: 'PRESENT_ADDRESS'},
-    {label: "Father's Name", key: 'FATHER_NAME'},
-    {label: "Father's Occupation", key: 'FATHER_OCCUPATION'},
-    {label: "Mother's Name", key: 'MOTHER_NAME'},
-    {label: "Mother's Occupation", key: 'MOTHER_OCCUPATION'},
-    {label: "Annual Income", key: 'ANNUAL_INCOME'},
-    {label: "Claim for Fee Exemption?", key: 'CLAIM_FEE_EXEMPTION'},
-    {label: "DOB", key: 'DOB'},
-    {label: "Aadhaar", key: 'AADHAR_NO'},
-    {label: "Email", key: 'EMAIL_ID'},
-    {label: "Student Phone Number", key: 'STUDENT_MOBILE'},
-    {label: "Class 12 Board", key: 'CLASS12_BOARD'},
-    {label: "Class 12 Roll", key: 'CLASS12_ROLL'},
-    {label: "Passout Year", key: 'PASSOUT_YEAR'},
-    {label: "Honours Subject", key: 'SUB'}
-  ]
-
 
   const loadStudents = async () => {
-    const studentResult = await axios.get(
-      `http://localhost:3001/profile/${state.year}/${sem}?page=${page}&npp=${perPage}&title=${searchTitle}`
-    );
+    const studentResult = await axios.get(`/profile/${state.year}/${sem}?page=${page}&npp=${perPage}&title=${searchTitle}`);
     console.log(studentResult);
     setStudentList(studentResult.data.results);
-    //setFilteredStudent(studentResult.data);
     if(studentResult.data.pagination.numberofPages !== undefined){
       setTotalPages(studentResult.data.pagination.numberofPages);
     }
@@ -78,17 +53,18 @@ const Profile = () => {
   const onChangeSearchTitle = (e) => {
     setSearchTitle(e.target.value);
   }
+   
   const findByTitle = async() => {
     setPage(1);
     console.log(searchTitle);
-    const result = await axios.get(`http://localhost:3001/profile/${state.year}/${sem}?title=${searchTitle}`);
+    const result = await axios.get(`/profile/${state.year}/${sem}?title=${searchTitle}`);
     setStudentList(result.data.results);
   }
   
   const handleDownload = async() => {
-    const result = await fetch(`http://localhost:3001/download/studentProfile/${sem}/${state.year}`);
+    const result = await fetch(`/download/studentProfile/${sem}/${state.year}`);
     const res = await result.json();
-    console.log(res);
+    //console.log(res);
     csvExporter.generateCsv(res);
   }
   return (

@@ -43,12 +43,13 @@ const Navbar = () => {
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item active d-flex flex-row">
-            <Link to="/">Home</Link>
+          <li className="nav-item " style={{ paddingTop: 8}}>
+            <Link to="/" style={{ color: 'white', textDecoration: 'none'}}>Home</Link>
           </li>
           <li className="nav-item">
             <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">Semester</button>
+            {/* <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">Semester</button> */}
+            <a href="#" id="menu" data-toggle="dropdown" class="nav-link dropdown-toggle w-100">Semester</a>
               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li>
                   <a className="dropdown-item" href="#">
@@ -183,7 +184,8 @@ const Navbar = () => {
           </li>
 
           <div className="dropdown">
-            <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">Fee</button>
+            {/* <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">Fee</button> */}
+            <a href="#" id="menu" data-toggle="dropdown" class="nav-link dropdown-toggle w-100">Fee</a>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li>
                 <a className="dropdown-item" href="#">
@@ -239,7 +241,8 @@ const Navbar = () => {
           </div>
 
           <div className="dropdown">
-            <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">Promotion</button>
+            {/* <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">Promotion</button> */}
+            <a href="#" id="menu" data-toggle="dropdown" class="nav-link dropdown-toggle w-100">Promotion</a>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li>
                 <a className="dropdown-item" href="#">
@@ -278,8 +281,12 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <li className="nav-item active d-flex flex-row">
-            <Link to="/BackStudents"><button type="button" className="btn btn-primary btn-sm">Back Students</button></Link>
+          {/* <li className="nav-item active d-flex flex-row">
+             <Link to="/BackStudents"><button type="button" className="btn btn-primary btn-sm">Back Students</button></Link> 
+            <Link to="/BackStudents"><a href="#" id="menu" data-toggle="dropdown" class="nav-link dropdown-toggle w-100">Back Students</a></Link>
+          </li> */}
+          <li className="nav-item " style={{ paddingTop: 8}}>
+            <Link to="/BackStudents" style={{ color: 'white', textDecoration: 'none'}}>BackStudents</Link>
           </li>
           <li className="nav-item">
             <Link to="/createStudentProfile"><button className="btn btn-outline-light">Add User</button></Link>
@@ -298,9 +305,9 @@ const Navbar = () => {
           </button>
         </form>
         {!(auth?.user) ? 
-        <li className="nav-item active d-flex flex-row">
-            <Link to="/Login">Login</Link>
-          </li>
+        <li className="nav-item " style={{ paddingTop: 8}}>
+          <Link to="/Login" style={{ color: 'white', textDecoration: 'none'}}>Login</Link>
+        </li>
         :
         <li className="nav-item active d-flex flex-row">
           <button onClick={logout}>Logout</button>

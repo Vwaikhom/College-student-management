@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../apis/api";
 import { useParams } from "react-router-dom";
 import DatePicker from "react-date-picker";
 import Select from 'react-select';
@@ -87,10 +87,10 @@ const Update = () => {
     //console.log(new Date(student.DOB.slice(0,19)));
     console.log(data);
 
-    const updateResult = await axios.put(`http://localhost:3001/profile/${course}/${sem}/${id}`, data);
+    const updateResult = await axios.put(`/profile/${course}/${sem}/${id}`, data);
 
     if(updatedSubject !== ""){
-      const updateSubjectResult = await axios.post(`http://localhost:3001/updateHonours/${course}/${sem}/${id}`, {'SUB': updatedSubject})
+      const updateSubjectResult = await axios.post(`/updateHonours/${course}/${sem}/${id}`, {'SUB': updatedSubject})
       console.log(updateSubjectResult);
     }
     console.log(updateResult);
@@ -99,7 +99,7 @@ const Update = () => {
 
   const LoadStudent = async () => {
     //console.log(course,sem,id)
-    const response = await axios.get(`http://localhost:3001/profile/${course}/${sem}/${id}`);
+    const response = await axios.get(`/profile/${course}/${sem}/${id}`);
     const result = response.data[0];
     //console.log(result);
 

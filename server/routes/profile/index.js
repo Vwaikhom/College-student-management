@@ -20,24 +20,25 @@ function isAdmin(req,res,next){
 
 router.route('/')
     .post(isAdmin,(req,res) => {
+    console.log(req.body);
     let query = "CALL NEW_STUDENT";
     let values = "(";
-    Object.getOwnPropertyNames(req.body).forEach(val => {
+    Object.getOwnPropertyNames(req.body.data).forEach(val => {
         //fields += val + ", ";
-        if(req.body[val] === null){
+        if(req.body.data[val] === null){
             values += `"",`;
         } else{
-            if(typeof req.body[val] == 'number'){
-                values += `${req.body[val]}` + ", ";
+            if(typeof req.body.data[val] == 'number'){
+                values += `${req.body.data[val]}` + ", ";
             } else{
-                values += `"${req.body[val]}"` + ", "
+                values += `"${req.body.data[val]}"` + ", "
             }
         }
     })
     //fields = fields.slice(0,-2);
     values = values.slice(0,-2);
     values += ");";
-    //console.log(values);
+    console.log(values);
     let sqlQuery = (query + values);
     queryAsync(sqlQuery).
     then((result) => {
