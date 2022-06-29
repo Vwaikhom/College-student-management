@@ -3,6 +3,8 @@ import axios from "../../apis/api";
 import { useParams } from "react-router-dom";
 import DatePicker from "react-date-picker";
 import Select from 'react-select';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Update = () => {
 
@@ -92,9 +94,30 @@ const Update = () => {
     if(updatedSubject !== ""){
       const updateSubjectResult = await axios.post(`/updateHonours/${course}/${sem}/${id}`, {'SUB': updatedSubject})
       console.log(updateSubjectResult);
+      if(updateSubjectResult.statusText === "OK"){
+        toast.success('Updated honours subject successfully!', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      }
     }
     console.log(updateResult);
-    
+    if(updateResult.statusText === "OK"){
+      toast.success('Updated student data successfully!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
   };
 
   const LoadStudent = async () => {
@@ -134,6 +157,7 @@ const Update = () => {
         <h2 className="text-center mb-4">Edit Student</h2>
 
         <form onSubmit={e => onSubmit(e)}>
+        <label>Student Name</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -143,7 +167,7 @@ const Update = () => {
               value={updateFields.STUDENT_NAME}
               onChange={e => onInputChange(e)}/>
           </div>
-
+          <label>UHID</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -154,6 +178,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Roll Number</label>
           <div className="form-group mt-3">
             <input
               type="number"
@@ -164,6 +189,7 @@ const Update = () => {
               onChange={e => onNumberInputChange(e)}
             />
           </div>
+          <label>SEX</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -174,9 +200,11 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Date of Admission</label>
           <div className="form-group mt-3">
             <DatePicker onChange={setUpdateDateFormSub} value={updateDATE_FORM_SUB}/>
           </div>
+          <label>Photo URL</label>
          <div className="form-group mt-3">
             <input
               type="text"
@@ -187,6 +215,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Present Address</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -197,6 +226,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Phone Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -207,6 +237,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Permanent Address</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -217,6 +248,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Father's Name</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -227,6 +259,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Father's Occupation</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -237,6 +270,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Mother's Name</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -247,6 +281,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Mother's Occupation</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -257,6 +292,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Annual Income</label>
           <div className="form-group mt-3">
             <input
               type="number"
@@ -267,6 +303,7 @@ const Update = () => {
               onChange={e => onNumberInputChange(e)}
             />
           </div>
+          <label>Claim for Fee Exemption?</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -277,9 +314,11 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>DOB</label>
           <div className="form-group mt-3">
             <DatePicker onChange={setUpdateDOB} value={updateDOB}/>
           </div>
+          <label>Aadhar Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -290,6 +329,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Email ID</label>
           <div className="form-group mt-3">
             <input
               type="email"
@@ -300,6 +340,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Student's Mobile Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -310,6 +351,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Category</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -320,6 +362,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>University Roll Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -330,6 +373,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Class 12 Board</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -340,6 +384,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Class 12 Roll Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -350,6 +395,7 @@ const Update = () => {
               onChange={e => onInputChange(e)}
             />
           </div>
+          <label>Passout Year</label>
           <div className="form-group mt-3">
             <input
               type="number"
@@ -360,6 +406,7 @@ const Update = () => {
               onChange={e => onNumberInputChange(e)}
             />
           </div>
+          <label>Honours Subject</label>
           <div className="form-group mt-3">
             <Select options={subjects} value={{label: subject}} onChange={handleSubjectChange}/>
           </div>
@@ -367,6 +414,17 @@ const Update = () => {
             Edit Student
           </button>
         </form>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     </div>
   );

@@ -193,16 +193,13 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-submenu">
                   <li>
-                    <Link to={`/AdmissionFee/${state.year}/1`}><button>Semester1</button></Link>
+                    <Link to={`/AdmissionFee/${state.year}/2`}><button>Semester2</button></Link>
                   </li>
                   <li>
-                    <Link to={`/AdmissionFee/${state.year}/3`}><button>Semester3</button></Link>
+                    <Link to={`/AdmissionFee/${state.year}/4`}><button>Semester4</button></Link>
                   </li>
                   <li>
-                    <Link to={`/AdmissionFee/${state.year}/5`}><button>Semester5</button></Link>
-                  </li>
-                  <li>
-                    <Link to={`/AdmissionFee/${state.year}/7`}><button>Semester7</button></Link>
+                    <Link to={`/AdmissionFee/${state.year}/6`}><button>Semester6</button></Link>
                   </li>
                 </ul>
               </li>
@@ -253,13 +250,13 @@ const Navbar = () => {
                     <Link to={`/Promotion/${state.year}/1`}><button>1 to 2</button></Link>
                   </li>
                   <li>
-                    <Link to={``}><button>3 to 4</button></Link>
+                    <Link to={`/Promotion/${state.year}/3`}><button>3 to 4</button></Link>
                   </li>
                   <li> 
-                    <Link to={``}><button>5 to 6</button></Link>
+                    <Link to={`/Promotion/${state.year}/5`}><button>5 to 6</button></Link>
                   </li>
                   <li>
-                    <Link to={``}><button>7 to 8</button></Link>
+                    <Link to={`/Promotion/${state.year}/7`}><button>7 to 8</button></Link>
                   </li>
                 </ul>
               </li>
@@ -269,13 +266,13 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-submenu">
                 <li>
-                    <Link to={``}><button>2 to 3</button></Link>
+                    <Link to={`/Promotion/${state.year}/2`}><button>2 to 3</button></Link>
                   </li>
                   <li>
-                    <Link to={``}><button>4 to 5</button></Link>
+                    <Link to={`/Promotion/${state.year}/4`}><button>4 to 5</button></Link>
                   </li>
                   <li>
-                    <Link to={``}><button>6 to 7</button></Link>
+                    <Link to={`/Promotion/${state.year}/6`}><button>6 to 7</button></Link>
                   </li>
                 </ul>
               </li>
@@ -289,7 +286,7 @@ const Navbar = () => {
             <Link to="/BackStudents" style={{ color: 'white', textDecoration: 'none'}}>BackStudents</Link>
           </li>
           <li className="nav-item">
-            <Link to="/createStudentProfile"><button className="btn btn-outline-light">Add User</button></Link>
+            <Link to="/createStudentProfile"><button className="btn btn-outline-light">Add Student</button></Link>
           </li>
         </ul>
         <form className="form-inline my-2 my-lg-0" onSubmit={updateAcademicYear}> 

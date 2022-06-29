@@ -139,7 +139,7 @@ const SubjectsCombination = () => {
                   { (sem === "3" || sem === "4" || sem === "5" || sem == "6" || sem === 7 || sem === "8") ?<input type="text" placeholder="GEC" name = "GEC" value={student.GEC!==null ? student.GEC : ""} onChange={handleChange(student)} />  : null}
                   {(sem === "1" || sem === "2") ? <input type="text" placeholder="AECC" name = "AECC" value={student.AECC!==null ? student.AECC : ""} onChange={handleChange(student)} />  : null}
                   {(sem === "1" || sem === "2")? <input type="text" placeholder="SEC" name = "SEC" value={student.SEC!==null ? student.SEC : ""} onChange={handleChange(student)} />  : null}
-                  {(sem === "1" || sem === "3" || sem === "4" || sem === "5" || sem === "6")?<input type="text" placeholder="VAC1" name = "VAC1" value={student.VAC1!==null ? student.VAC1 : ""} onChange={handleChange(student)} />  : null}
+                  {(sem === "1" || sem === "2" || sem === "3" || sem === "4" || sem === "5" || sem === "6")?<input type="text" placeholder="VAC1" name = "VAC1" value={student.VAC1!==null ? student.VAC1 : ""} onChange={handleChange(student)} />  : null}
                   {(sem === "1" || sem === "2")?<input type="text" placeholder="VAC2" name = "VAC2" value={student.VAC2!==null ? student.VAC2 : ""} onChange={handleChange(student)} />  : null}
                   <button className='btn btn-primary mr-2' onClick={handleUpdate(student)}>Update</button>
                 </div>

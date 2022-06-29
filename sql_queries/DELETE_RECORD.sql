@@ -1,0 +1,17 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DELETE_RECORD`(
+	d_ID INT
+)
+BEGIN
+	START TRANSACTION;
+		SET FOREIGN_KEY_CHECKS = 0;
+			DELETE s,sem,a,f
+			FROM student_profile AS s  
+			LEFT JOIN student_semester AS sem ON s.ID = sem.STUDENT_PROFILE_ID 
+			LEFT JOIN academic_record AS a ON a.STUDENT_SEMESTER_ID = sem.ID
+			LEFT JOIN student_fee AS f ON f.STUDENT_PROFILE_ID = s.ID
+			WHERE s.ID = d_ID;
+		SET FOREIGN_KEY_CHECKS = 1;
+	COMMIT;
+END$$
+DELIMITER ;

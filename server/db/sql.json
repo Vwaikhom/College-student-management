@@ -3,7 +3,7 @@
      "models": 
         [{  "modelName": "student-profile",
             "Queires":{
-                "pagination": ["SELECT COUNT(*) AS numRows FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?", "SELECT s.* FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?"],  
+                "pagination": ["SELECT COUNT(*) AS numRows FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?", "SELECT s.* FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND sem.PROMOTED='N'"],  
                 "create": "INSERT INTO student_profile (UHID,STUDENT_NAME,SEX,DATE_FORM_SUB,PHOTO_URL,PRESENT_ADDRESS,PHONE_NO,PERMANENT_ADDRESS, FATHER_NAME,FATHER_OCCUPATION, MOTHER_NAME,MOTHER_OCCUPATION,ANNUAL_INCOME,CLAIM_FEE_EXEMPTION,DOB,AADHAR_NO,EMAIL_ID,STUDENT_MOBILE,CATEGORY, CLASS12_BOARD, CLASS12_ROLL,PASSOUT_YEAR) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 "getAll": "SELECT * FROM student_profile",
                 "viewID": "SELECT * FROM student_profile s LEFT JOIN student_semester p ON s.ID = p.STUDENT_PROFILE_ID WHERE s.ID = ?",

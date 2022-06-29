@@ -4,6 +4,8 @@ import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
 import axios from '../../apis/api';
 import { ExportToCsv } from 'export-to-csv';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BackStudents = () => {
     const state = useContext(AcademicYearContext);
@@ -73,6 +75,17 @@ const BackStudents = () => {
         });
         //result = await result.json();
         console.log(result);
+        if(result.statusText === "OK"){
+            toast.success('Cleared from back list successfully!', {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+          }
     }
 
     const handleBackMarksUpdate = (student) => async() => {
@@ -81,6 +94,17 @@ const BackStudents = () => {
         });
         //result = await result.json();
         console.log(result);
+        if(result.statusText === "OK"){
+            toast.success('Updated marks successfully!', {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+          }
     }
 
     const handleDownload = async() => {
@@ -159,6 +183,17 @@ const BackStudents = () => {
                 ))}
                 </tbody>
         </table>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         </div>
     );
 }

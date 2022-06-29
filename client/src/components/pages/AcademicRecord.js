@@ -4,6 +4,8 @@ import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
 import { ExportToCsv } from 'export-to-csv';
 import axios from "../../apis/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AcademicRecords = () => {
 
@@ -98,6 +100,17 @@ const AcademicRecords = () => {
         });
         //result = await result.json();
         console.log(result);
+        if(result.statusText === "OK"){
+            toast.success('Updated marks successfully!', {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+          }
     }
 
     const handleBackRegister = (student) => async() => {
@@ -107,6 +120,17 @@ const AcademicRecords = () => {
         });
         //result = await result.json();
         console.log(result);
+        if(result.statusText === "OK"){
+            toast.success('Registered as back successfully!', {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+          }
     }
 
     const handleDownload = async() => {
@@ -202,6 +226,17 @@ const AcademicRecords = () => {
                 ))}
                 </tbody>
         </table>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         </div>
      );
 }

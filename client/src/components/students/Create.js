@@ -4,6 +4,8 @@ import Select from 'react-select';
 import {Link} from 'react-router-dom';
 import NewSubjectCombo from "../pages/NewSubjectCombo";
 import axios from "../../apis/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Create = () => {
   const [STUDENT_NAME,setStudentName] = useState("");
@@ -100,7 +102,19 @@ const Create = () => {
     })
     //const json = await response.json();
     //console.log(json);
-    setInsertID(response);
+    setInsertID(response.data);
+    console.log(response.status)
+    if(response.statusText === "OK"){
+      toast.success('Added Successfully!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
   };
 
   return (
@@ -109,6 +123,7 @@ const Create = () => {
         <h2 className="text-center mb-4">Add A Student</h2>
 
         <form onSubmit={handleSubmit}>
+        <label>Student Name</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -118,7 +133,7 @@ const Create = () => {
               value={STUDENT_NAME}
               onChange={(e) => setStudentName(e.target.value)}/>
           </div>
-
+          <label>UHID</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -129,6 +144,7 @@ const Create = () => {
               onChange={(e) => setUHID(e.target.value)}
             />
           </div>
+          <label>SEX</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -139,9 +155,11 @@ const Create = () => {
               onChange={(e) => setSex(e.target.value)}
             />
           </div>
+          <label>Date of Form Submission</label>
           <div className="form-group mt-3">
             <DatePicker onChange={setDateFormSub} value={DATE_FORM_SUB}/>
           </div>
+          <label>Photo URL</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -152,6 +170,7 @@ const Create = () => {
               onChange={(e) => setPhotoURL(e.target.value)}
             />
           </div>
+          <label>Present Address</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -162,6 +181,7 @@ const Create = () => {
               onChange={(e) => setPresentAddress(e.target.value)}
             />
           </div>
+          <label>Phone Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -172,6 +192,7 @@ const Create = () => {
               onChange={(e) => setPhoneNo(e.target.value)}
             />
           </div>
+          <label>Permanent Address</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -182,6 +203,7 @@ const Create = () => {
               onChange={(e) => setPermanentAddress(e.target.value)}
             />
           </div>
+          <label>Father's Name</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -192,6 +214,7 @@ const Create = () => {
               onChange={(e) => setFatherName(e.target.value)}
             />
           </div>
+          <label>Father's Occupation</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -202,6 +225,7 @@ const Create = () => {
               onChange={(e) => setFatherOccupation(e.target.value)}
             />
           </div>
+          <label>Mother's Name</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -212,6 +236,7 @@ const Create = () => {
               onChange={(e) => setMotherName(e.target.value)}
             />
           </div>
+          <label>Mother's Occupation</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -222,6 +247,7 @@ const Create = () => {
               onChange={(e) => setMotherOccupation(e.target.value)}
             />
           </div>
+          <label>Annual Income</label>
           <div className="form-group mt-3">
             <input
               type="number"
@@ -232,6 +258,7 @@ const Create = () => {
               onChange={(e) => setAnnualIncome(parseInt(e.target.value))}
             />
           </div>
+          <label>Claim for Fee Exemption?</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -242,6 +269,7 @@ const Create = () => {
               onChange={(e) => setClaim(e.target.value)}
             />
           </div>
+          <label>DOB</label>
           <div className="form-group mt-3">
             <DatePicker onChange={setDOB} value={DOB}/>
           </div>
@@ -256,6 +284,7 @@ const Create = () => {
               onChange={(e) => setAadharNo(e.target.value)}
             />
           </div>
+          <label>Email</label>
           <div className="form-group mt-3">
             <input
               type="email"
@@ -266,6 +295,7 @@ const Create = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+          <label>Student's Phone Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -276,6 +306,7 @@ const Create = () => {
               onChange={(e) => setStudentPhoneNo(e.target.value)}
             />
           </div>
+          <label>Category</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -286,6 +317,7 @@ const Create = () => {
               onChange={(e) => setCategory(e.target.value)}
             />
           </div>
+          <label>Class 12 Board</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -296,6 +328,7 @@ const Create = () => {
               onChange={(e) => setClass12Board(e.target.value)}
             />
           </div>
+          <label>Class 12 Roll Number</label>
           <div className="form-group mt-3">
             <input
               type="text"
@@ -306,6 +339,7 @@ const Create = () => {
               onChange={(e) => setclass12Roll(e.target.value)}
             />
           </div>
+          <label>Passout Year</label>
           <div className="form-group mt-3">
             <input
               type="number"
@@ -316,6 +350,7 @@ const Create = () => {
               onChange={(e) => setPassOutYear(parseInt(e.target.value))}
             />
           </div>
+          <label>Honours Subject</label>
           <div className="form-group mt-3">
             <Select options={subjects} onChange={handleSubjectChange}/>
           </div>
@@ -329,7 +364,18 @@ const Create = () => {
             </Link>
         </div> */}
       </div>
-      {(isAdmin == true && insertID !== null) ? <NewSubjectCombo id={insertID}/> : null}
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      {/* {(isAdmin == true && insertID !== null) ? <NewSubjectCombo id={insertID}/> : null} */}
     </div>
   );
 };

@@ -1,67 +1,71 @@
 Listening on port 3001
 Connected!
-Listening on port 3001
-Connected!
-Listening on port 3001
-Connected!
-true
-true
-Listening on port 3001
-Connected!
-true
-Listening on port 3001
-Connected!
-Listening on port 3001
-Connected!
-OperationalError: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1
-    at Packet.asError (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packets\packet.js:728:17)
-    at Query.execute (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\commands\command.js:29:26)
-    at Connection.handlePacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:456:32)
-    at PacketParser.onPacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:85:12)
-    at PacketParser.executeStart (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packet_parser.js:75:16)
-    at Socket.<anonymous> (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:92:25)
-    at Socket.emit (node:events:369:20)
-    at addChunk (node:internal/streams/readable:313:12)
-    at readableAddChunk (node:internal/streams/readable:288:9)
-    at Socket.Readable.push (node:internal/streams/readable:227:10)
-    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
-  cause: Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1
-      at Packet.asError (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packets\packet.js:728:17)
-      at Query.execute (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\commands\command.js:29:26)
-      at Connection.handlePacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:456:32)
-      at PacketParser.onPacket (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:85:12)
-      at PacketParser.executeStart (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\packet_parser.js:75:16)
-      at Socket.<anonymous> (C:\Users\user\Desktop\collegedb\app\server\node_modules\mysql2\lib\connection.js:92:25)
-      at Socket.emit (node:events:369:20)
-      at addChunk (node:internal/streams/readable:313:12)
-      at readableAddChunk (node:internal/streams/readable:288:9)
-      at Socket.Readable.push (node:internal/streams/readable:227:10)
-      at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
-    code: 'ER_PARSE_ERROR',
-    errno: 1064,
-    sqlState: '42000',
-    sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1",
-    sql: "undefined'%waikhom%'"
-  },
-  isOperational: true,
-  code: 'ER_PARSE_ERROR',
-  errno: 1064,
-  sqlState: '42000',
-  sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undefined'%waikhom%'' at line 1",
-  sql: "undefined'%waikhom%'"
+{
+  data: {
+    STUDENT_NAME: 'promoteTest',
+    UHID: 'pqr',
+    SEX: 'M',
+    finalDATEFORM: '2022-6-29',
+    PHOTO_URL: '',
+    PRESENT_ADDRESS: 'Singjamei',
+    PHONE_NO: '',
+    PERMANENT_ADDRESS: '',
+    FATHER_NAME: 'abc',
+    FATHER_OCCUPATION: '',
+    MOTHER_NAME: '',
+    MOTHER_OCCUPATION: 'rtrty',
+    ANNUAL_INCOME: 5200000,
+    CLAIM_FEE_EXEMPTION: '',
+    finalDOB: '2002-8-22',
+    AADHAR_NO: '',
+    EMAIL_ID: '',
+    STUDENT_MOBILE: '7825',
+    CATEGORY: '',
+    CLASS12_BOARD: 'COHSEM',
+    CLASS12_ROLL: '444444',
+    PASSOUT_YEAR: 2021,
+    PROGRAM: 'BS',
+    SUB: 'PHC'
+  }
 }
-true
-Listening on port 3001
-Connected!
-Listening on port 3001
-Connected!
-true
-true
-Listening on port 3001
-Connected!
-true
-Listening on port 3001
-Connected!
-Listening on port 3001
-Connected!
-true
+("promoteTest", "pqr", "M", "2022-6-29", "", "Singjamei", "", "", "abc", "", "", "rtrty", 5200000, "", "2002-8-22", "", "", "7825", "", "COHSEM", "444444", 2021, "BS", "PHC");
+356
+ResultSetHeader {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 0,
+  info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+  serverStatus: 2,
+  warningStatus: 0,
+  changedRows: 1
+}
+{
+  data: {
+    ID: 356,
+    STUDENT_NAME: 'promoteTest',
+    SEM_YEAR: '2022',
+    SEMESTER: '1',
+    PROMOTED: 'N',
+    ADM_FEE: 'PAID',
+    EXM_FEE: 'PAID',
+    EXM_FEE_PHASE: '1'
+  }
+}
+2 2022 356
+ResultSetHeader {
+  fieldCount: 0,
+  affectedRows: 0,
+  insertId: 0,
+  info: '',
+  serverStatus: 16418,
+  warningStatus: 0
+}
+356
+ResultSetHeader {
+  fieldCount: 0,
+  affectedRows: 0,
+  insertId: 0,
+  info: '',
+  serverStatus: 16386,
+  warningStatus: 0
+}

@@ -4,6 +4,8 @@ import Pagination from "../layouts/pagination";
 import { AcademicYearContext } from "../../App";
 import { ExportToCsv } from 'export-to-csv';
 import axios from '../../apis/api';
+import '../layouts/MUIDialog';
+import { MUIDialog } from "../layouts/MUIDialog";
 
 const Profile = () => {
   const [studentList, setStudentList] = useState([]);
@@ -11,7 +13,7 @@ const Profile = () => {
   const [perPage, setPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
-
+  const [toggle, setToggle] = useState(true);
 
   const state = useContext(AcademicYearContext);
   const {sem} = useParams();
@@ -19,7 +21,7 @@ const Profile = () => {
 
   useEffect(() => {
     loadStudents();
-  }, [page,state.year,sem]);
+  }, [page,state.year,sem,toggle]);
 
   const options = { 
     fieldSeparator: ',',
@@ -66,7 +68,22 @@ const Profile = () => {
     const res = await result.json();
     //console.log(res);
     csvExporter.generateCsv(res);
-  }
+  };
+
+  // const handleDelete = (student) => async() => {
+  //   // console.log(student);
+  //   // const result = await axios.delete(`/profile/${state.year}/${sem}/${student.ID}`);
+  //   // console.log(result);
+  //   // setToggle(!toggle);
+  //   <MUIDialog></MUIDialog>
+  // }
+
+  // const openDialog = () => {
+  //   return(
+  //     <MUIDialog />
+  //   );
+  // };
+
   return (
     <div className="container-fluid">
       <div className="col-sm-8">
@@ -116,6 +133,8 @@ const Profile = () => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-center">
                   <Link to={`/profile/${state.year}/${sem}/${student.ID}`}><button className="btn btn-primary mr-2">View</button></Link>
                   <Link to={`/profile/${state.year}/${sem}/${student.ID}/update`}><button className="btn btn-success ml-2">Edit</button></Link>
+                  {/* <button className="btn btn-danger ml-2" onClick={openDialog}>Delete</button> */}
+                  {<MUIDialog data={{'student':student,'sem':sem}}/>}
                 </div>
               </td>
             </tr>

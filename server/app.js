@@ -30,7 +30,7 @@ app.use(express.json());
 
 app.use(cors({
     origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
@@ -340,6 +340,7 @@ app.put('/AdmissionFee/:sem/:year/:id', isAdmin, (req,res) => {
     console.log(req.body);
     let flag = req.body.data.flag;
     console.log(flag);
+
     queryAsync('UPDATE student_fee f JOIN student_profile s ON s.ID = f.STUDENT_PROFILE_ID JOIN student_semester sem ON f.STUDENT_SEMESTER_ID = sem.ID SET f.ADM_FEE = ? WHERE sem.SEM_YEAR = ? AND sem.SEMESTER = ? AND s.ID = ?', [flag,year,sem,id])
     .then((result) => {
         console.log(result);
@@ -357,16 +358,18 @@ app.post('/Promotion/:sem/:year/:id', (req,res) => {
     year = parseInt(year);
     id = parseInt(id);
     console.log(req.body);
+    let fee_due = "UNPAID";
 
     if(sem % 2 === 0){
         year = year + 1;
+        fee_due = "PAID";
     }
     
     sem = sem + 1;
 
     console.log(sem,year,id);
 
-    queryAsync(`CALL PROMOTE(${sem}, ${year}, ${id})`)
+    queryAsync(`CALL PROMOTE(${sem}, ${year}, ${id}, '${fee_due}')`)
     .then((result) => {
         console.log(result);
         res.json(result);

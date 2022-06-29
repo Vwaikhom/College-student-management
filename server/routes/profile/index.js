@@ -6,8 +6,8 @@ const queryAsync = require('../../db/connection');
 
 let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "student-profile")})
 const pagination = sql.Queires.pagination;
-const sql3 = 'SELECT s.*, sem.DSC,sem.DSE,sem.GEC,sem.AECC,sem.SEC,sem.VAC1,sem.VAC2 FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID \
-WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND s.STUDENT_NAME LIKE ';
+const sql3 = "SELECT s.*, sem.DSC,sem.DSE,sem.GEC,sem.AECC,sem.SEC,sem.VAC1,sem.VAC2 FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID \
+WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?  AND sem.PRMOTED = 'N' AND s.STUDENT_NAME LIKE ";
 
 function isAdmin(req,res,next){
     if(req.cookies){
@@ -124,8 +124,16 @@ router.route('/:year/:sem/:id')
         })
 
         res.json(responsePayload);
-    });
-
+    })
+    .delete((req,res) => {
+        const {id} = req.params;
+        console.log(id);
+        queryAsync(`CALL DELETE_RECORD(${id})`)
+        .then((result) => {
+            console.log(result);
+            res.json(result);
+        })
+    })
     // router.route('/updateHonours/:course/:sem/:id')
     // .get((req,res) => {
     //     const {course,sem,id} = req.params;

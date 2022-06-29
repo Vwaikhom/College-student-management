@@ -8,7 +8,7 @@ const { route } = require('../profile');
 router.route('/studentProfile/:sem/:year')
     .get( (req,res) => {
         const {sem,year} = req.params;
-        queryAsync('SELECT s.* FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?',[sem,year])
+        queryAsync('SELECT s.*, sem.PROMOTED FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?',[sem,year])
         .then((results) => {
             res.json(results);
         })

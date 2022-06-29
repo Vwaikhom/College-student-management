@@ -4,9 +4,9 @@
 	<description>Node-Windows Service for starting every bootup time</description>
 	<executable>C:\Program Files\nodejs\node.exe</executable>
 	<argument>--harmony</argument>
-	<argument>C:\Users\user\Desktop\collegedb\app\server\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>C:\Users\Lenovo\Desktop\app\College-student-management\server\node_modules\node-windows\lib\wrapper.js</argument>
 	<argument>--file</argument>
-	<argument>C:\Users\user\Desktop\collegedb\app\server\app.js</argument>
+	<argument>C:\Users\Lenovo\Desktop\app\College-student-management\server\app.js</argument>
 	<argument>--scriptoptions=</argument>
 	<argument>--log</argument>
 	<argument>College DB Management Server wrapper</argument>
@@ -23,9 +23,9 @@
 	<logmode>rotate</logmode>
 	<stoptimeout>30sec</stoptimeout>
 	<serviceaccount>
-		<domain>DESKTOP-AQ8R90I</domain>
+		<domain>DESKTOP-Q3O3PM4</domain>
 		<user>LocalSystem</user>
 		<password></password>
 	</serviceaccount>
-	<workingdirectory>C:\Users\user\Desktop\collegedb\app\server</workingdirectory>
+	<workingdirectory>C:\Users\Lenovo\Desktop\app\College-student-management\server</workingdirectory>
 </service>
