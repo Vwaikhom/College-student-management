@@ -1,2 +1,0 @@
-2022-06-29 21:14:32 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Lenovo\Desktop\app\College-student-management\server\node_modules\node-windows\lib\wrapper.js --file C:\Users\Lenovo\Desktop\app\College-student-management\server\app.js --scriptoptions= --log "College DB Management Server wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
-2022-06-29 21:14:32 - Started 5332
