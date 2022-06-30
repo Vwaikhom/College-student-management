@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const paginate = require('../../helpers/paginate');
+const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
 const { route } = require('../profile');

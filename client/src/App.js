@@ -46,18 +46,15 @@ export const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/profile/:year/:sem" element={<Profile />} />
           <Route exact path="/profile/:year/:sem/:id" element={<View />} />
-          <Route exact path="/academicRecords/:year/:sem" element={<AcademicRecords />} />
-          <Route exact path="/BackStudents" element={<BackStudents />} />
-          
-          <Route path="/AddSubjectCombination1" element={<NewSubjectCombo />}/>
-          {/* <Route path="/UpdateStudentProfile/:id" element={<Update />} /> */}
-          {/* <Route path="/studentProfile/:id" element={<View />} /> */}
-          <Route path="/subjectCombination/:year/:sem" element={<SubjectsCombination />} />
 
-          <Route path="/Promotion/:year/:sem" element={<Promotion />} />
           <Route path="/Login" element={<Login />} />
 
           <Route element={<RequireAuth />} > 
+            <Route exact path="/academicRecords/:year/:sem" element={<AcademicRecords />} />
+            <Route exact path="/BackStudents" element={<BackStudents />} />
+            <Route path="/AddSubjectCombination1" element={<NewSubjectCombo />}/>
+            <Route path="/subjectCombination/:year/:sem" element={<SubjectsCombination />} />
+            <Route path="/Promotion/:year/:sem" element={<Promotion />} />
             <Route path="/CreateStudentProfile" element={<Create />} />
             <Route path="/ExaminationFee/:year/:sem" element={<ExamFee />} />
             <Route path="/AdmissionFee/:year/:sem" element={<AdmissionFee />} />

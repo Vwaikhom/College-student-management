@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const paginate = require('../../helpers/paginate');
+const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
+const verifyJWT = require('../../middleware/auth');
+
 
 router.route('/')
     .get( (req,res) => {
@@ -28,7 +30,7 @@ router.route('/')
         }
     })
 router.route('/back/:id')
-    .post( (req,res) => {
+    .post(verifyJWT, (req,res) => {
         const {id} = req.params;
         const IA = req.body.data.IA;
         const EA = req.body.data.EA;
@@ -43,7 +45,7 @@ router.route('/back/:id')
 
 
 router.route('/:id')
-    .put((req,res) => {
+    .put(verifyJWT, (req,res) => {
         const {id} = req.params;
         const IA = req.body.data.IA;
         const EA = req.body.data.EA;

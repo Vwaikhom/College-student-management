@@ -33,6 +33,7 @@ const Login = () => {
             );
             console.log(JSON.stringify(response?.data));
             setAuth({user});
+            localStorage.setItem("token", response.data.token);
             setUser('');
             setPwd('');
             setSuccess(true);

@@ -40,7 +40,7 @@ export const MUIDialog = (props) => {
 
     return(
         <>
-        <Button color='warning' onClick={() => setOpen(true)}>Delete</Button>
+        <Button color='warning' disabled={localStorage.getItem("token") == null} onClick={() => setOpen(true)}>Delete</Button>
         <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
             <DialogTitle id='dialog-title'>Confirm</DialogTitle>
             <DialogContent>

@@ -1,10 +1,11 @@
 const mysql = require('mysql2')
 const Promise = require('bluebird')
+require('dotenv').config()
 
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "password123",
+    password: process.env.DB_CONNECTION_PASSWORD,
     database: "collegedbv1",
     timezone: 'Z'
 });

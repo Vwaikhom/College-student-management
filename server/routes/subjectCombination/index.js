@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const paginate = require('../../helpers/paginate');
+const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
+const verifyJWT = require('../../middleware/auth');
 
 let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "student-profile")})
 const pagination = sql.Queires.pagination;
@@ -17,7 +18,7 @@ router.route('/:year/:sem')
     });
 
 router.route('/:year/:sem/:id')
-    .post((req,res) => {
+    .post(verifyJWT,(req,res) => {
         let {sem,id} = req.params;
         sem = parseInt(sem);
         id = parseInt(id);

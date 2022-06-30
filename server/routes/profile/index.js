@@ -1,25 +1,18 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const paginate = require('../../helpers/paginate');
+const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
+const verifyJWT = require('../../middleware/auth');
 
 let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "student-profile")})
 const pagination = sql.Queires.pagination;
 const sql3 = "SELECT s.*, sem.DSC,sem.DSE,sem.GEC,sem.AECC,sem.SEC,sem.VAC1,sem.VAC2 FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID \
 WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?  AND sem.PRMOTED = 'N' AND s.STUDENT_NAME LIKE ";
 
-function isAdmin(req,res,next){
-    if(req.cookies){
-        next();
-    }    
-    else{
-        res.sendStatus(401);
-    }
-}
 
 router.route('/')
-    .post(isAdmin,(req,res) => {
+    .post(verifyJWT,(req,res) => {
     console.log(req.body);
     let query = "CALL NEW_STUDENT";
     let values = "(";
@@ -51,33 +44,6 @@ router.route('/:year/:sem')
     .get(paginate(pagination[0], pagination[1], sql3), (req,res,next) => {
     res.json(res.paginatedResult);
 })
-// .post((req,res) => {
-//     console.log(req.body);
-//     console.log(req.body);
-//     let query = "INSERT INTO student_profile ";
-//     let fields = "";
-//     let values = "";
-//     Object.getOwnPropertyNames(req.body).forEach(val => {
-//         if(req.body[val] !== ""){
-//             fields += val + ", ";
-//             if(typeof req.body[val] == 'number'){
-//                 values += `${req.body[val]}` + ", ";
-//             } else{
-//                 values += `"${req.body[val]}"` + ", "
-//             }
-//         }
-//     })
-//     fields = fields.slice(0,-2);
-//     values = values.slice(0,-2);
-//     let sqlQuery = (query + `(${fields}) VALUES ` + `(${values})`);
-//     queryAsync(sqlQuery).
-//     then(result => {
-//         res.json(result);
-//     })
-// });
-
-
-//SELECT *, DATE_FORMAT(DATE_FORM_SUB, "%Y-%c-%d %H:%i:%s") AS FORMATTED_DATE_FORM, DATE_FORMAT(DOB,"%Y-%c-%d %H:%i:%s") AS FORMATTED_DOB FROM student_profile WHERE ID = 
 
 router.route('/:year/:sem/:id')
     .get((req,res) => {
@@ -88,7 +54,7 @@ router.route('/:year/:sem/:id')
             res.json(result);
         })
     })
-    .put((req,res) => {
+    .put(verifyJWT, (req,res) => {
         const {id} = req.params;
         let query = "UPDATE student_profile SET ";
         let updated = "";
@@ -125,7 +91,7 @@ router.route('/:year/:sem/:id')
 
         res.json(responsePayload);
     })
-    .delete((req,res) => {
+    .delete(verifyJWT, (req,res) => {
         const {id} = req.params;
         console.log(id);
         queryAsync(`CALL DELETE_RECORD(${id})`)
@@ -133,19 +99,6 @@ router.route('/:year/:sem/:id')
             console.log(result);
             res.json(result);
         })
-    })
-    // router.route('/updateHonours/:course/:sem/:id')
-    // .get((req,res) => {
-    //     const {course,sem,id} = req.params;
-    //     const honours_sub = req.body.updatedSubject;
+    });
 
-    //     queryAsync(`CALL UPDATE_HONOURS_SUB("${honours_sub}", ${id})`)
-    //     .then(result => {
-    //         console.log(result);
-    //         res.json(result);
-    //     })
-    //     .catch(err => {
-    //         res.json({ err : err})
-    //     })
-    // })
 module.exports = router;
