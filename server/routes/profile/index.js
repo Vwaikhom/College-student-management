@@ -3,7 +3,8 @@ const router = express.Router({ mergeParams: true });
 const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
-const verifyJWT = require('../../middleware/auth');
+const verifyJWT = require('../../middleware/verifyJWT');
+const verifyRoles = require('../../middleware/verifyRoles');
 
 let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "student-profile")})
 const pagination = sql.Queires.pagination;
@@ -12,7 +13,7 @@ WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?  AND sem.PRMOTED = 'N' AND s.STUDENT
 
 
 router.route('/')
-    .post(verifyJWT,(req,res) => {
+    .post(verifyJWT,verifyRoles("Admin","Editor"),(req,res) => {
     console.log(req.body);
     let query = "CALL NEW_STUDENT";
     let values = "(";
@@ -54,7 +55,7 @@ router.route('/:year/:sem/:id')
             res.json(result);
         })
     })
-    .put(verifyJWT, (req,res) => {
+    .put(verifyJWT,verifyRoles("Admin"), (req,res) => {
         const {id} = req.params;
         let query = "UPDATE student_profile SET ";
         let updated = "";
@@ -91,7 +92,7 @@ router.route('/:year/:sem/:id')
 
         res.json(responsePayload);
     })
-    .delete(verifyJWT, (req,res) => {
+    .delete(verifyJWT, verifyRoles("Admin"),(req,res) => {
         const {id} = req.params;
         console.log(id);
         queryAsync(`CALL DELETE_RECORD(${id})`)

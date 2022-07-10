@@ -2,18 +2,19 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 const verifyJWT = (req,res,next) => {
-    const token = req.headers["x-access-token"];
+    const token = req.headers["authorization"];
 
     if(token == null){
-        res.json({"message": "No token found. Please login"});
+        res.sendStatus(401);
     }
     else{
         jwt.verify(token,process.env.TOKEN, (err, result) => {
             if(err){
-                res.json({auth: false, message: "Not authenticated"})
+                res.sendStatus(403)
             }
             else{
-                req.user = result.id;
+                req.user = result.UserInfo.user;
+                req.role = result.UserInfo.role;
                 next();
             }
         })

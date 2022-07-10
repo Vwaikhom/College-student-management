@@ -1,33 +1,35 @@
-import React, {useContext, useState} from "react";
-import { Link,NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link,NavLink,useNavigate } from "react-router-dom";
 import * as mdb from 'mdb-ui-kit';
-import { AcademicYearContext } from "../../App";
-import useAuth from "../../hooks/useAth";
-import Cookies from "js-cookie";
-
+import useAuth from "../../hooks/useAuth";
+import useLogout from "../../hooks/useLogout";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const state = useContext(AcademicYearContext);
+  const year = localStorage.getItem("currentYear");
   const [thisYear,setThisYear] = useState("");
   const { auth, setAuth } = useAuth();
+  const logout = useLogout();
+  const navigate = useNavigate();
 
   const updateAcademicYear = (e) => {
     e.preventDefault();
-    state.setYear(thisYear);
+    localStorage.clear();
+    localStorage.setItem("currentYear", thisYear);
+    window.location.reload();
+
   }
 
-  const logout = () => {
-    setAuth({});
-    Cookies.remove("userId", {path:"/", domain:"localhost"});
-    localStorage.clear();
+  const signOut = async () => {
+    await logout();
+    navigate('/Login');
   }
 
   return (
     // <AcademicYearContext.Consumer >
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <a className="navbar-brand" href="#">
-      {state.year}
+      {year}
       </a>
       <button
         className="navbar-toggler"
@@ -57,13 +59,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/1`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/1`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/1`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/1`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/1`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/1`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -73,13 +75,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/2`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/2`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/2`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/2`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/2`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/2`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -89,13 +91,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/3`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/3`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/3`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/3`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/3`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/3`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -105,13 +107,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/4`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/4`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/4`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/4`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/4`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/4`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -121,13 +123,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/5`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/5`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/5`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/5`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/5`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/5`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -137,13 +139,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/6`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/6`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/6`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/6`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/6`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/6`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -153,13 +155,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/7`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/7`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/7`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/7`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/7`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/7`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -169,13 +171,13 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <Link to={`/profile/${state.year}/8`}><button>Student Profiles {(state.year)}</button></Link>
+                      <Link to={`/profile/${year}/8`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${state.year}/8`}><button>Academic Records {(state.year)}</button></Link>
+                    <Link to={`/academicRecords/${year}/8`}><button>Academic Records {(year)}</button></Link>
                     </li>
                     <li>
-                      <Link to={`/subjectCombination/${state.year}/8`}><button>Student subject combination</button></Link>
+                      <Link to={`/subjectCombination/${year}/8`}><button>Student subject combination</button></Link>
                     </li>
                   </ul>
                 </li>
@@ -193,13 +195,13 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-submenu">
                   <li>
-                    <Link to={`/AdmissionFee/${state.year}/2`}><button>Semester2</button></Link>
+                    <Link to={`/AdmissionFee/${year}/2`}><button>Semester2</button></Link>
                   </li>
                   <li>
-                    <Link to={`/AdmissionFee/${state.year}/4`}><button>Semester4</button></Link>
+                    <Link to={`/AdmissionFee/${year}/4`}><button>Semester4</button></Link>
                   </li>
                   <li>
-                    <Link to={`/AdmissionFee/${state.year}/6`}><button>Semester6</button></Link>
+                    <Link to={`/AdmissionFee/${year}/6`}><button>Semester6</button></Link>
                   </li>
                 </ul>
               </li>
@@ -209,28 +211,28 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-submenu">
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/1`}><button>Semester1</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/1`}><button>Semester1</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/2`}><button>Semester2</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/2`}><button>Semester2</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/3`}><button>Semester3</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/3`}><button>Semester3</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/4`}><button>Semester4</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/4`}><button>Semester4</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/5`}><button>Semester5</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/5`}><button>Semester5</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/6`}><button>Semester6</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/6`}><button>Semester6</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/7`}><button>Semester7</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/7`}><button>Semester7</button></NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/ExaminationFee/${state.year}/8`}><button>Semester8</button></NavLink>
+                    <NavLink to={`/ExaminationFee/${year}/8`}><button>Semester8</button></NavLink>
                   </li>
                 </ul>
               </li>
@@ -247,16 +249,16 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-submenu">
                   <li>
-                    <Link to={`/Promotion/${state.year}/1`}><button>1 to 2</button></Link>
+                    <Link to={`/Promotion/${year}/1`}><button>1 to 2</button></Link>
                   </li>
                   <li>
-                    <Link to={`/Promotion/${state.year}/3`}><button>3 to 4</button></Link>
+                    <Link to={`/Promotion/${year}/3`}><button>3 to 4</button></Link>
                   </li>
                   <li> 
-                    <Link to={`/Promotion/${state.year}/5`}><button>5 to 6</button></Link>
+                    <Link to={`/Promotion/${year}/5`}><button>5 to 6</button></Link>
                   </li>
                   <li>
-                    <Link to={`/Promotion/${state.year}/7`}><button>7 to 8</button></Link>
+                    <Link to={`/Promotion/${year}/7`}><button>7 to 8</button></Link>
                   </li>
                 </ul>
               </li>
@@ -266,13 +268,13 @@ const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-submenu">
                 <li>
-                    <Link to={`/Promotion/${state.year}/2`}><button>2 to 3</button></Link>
+                    <Link to={`/Promotion/${year}/2`}><button>2 to 3</button></Link>
                   </li>
                   <li>
-                    <Link to={`/Promotion/${state.year}/4`}><button>4 to 5</button></Link>
+                    <Link to={`/Promotion/${year}/4`}><button>4 to 5</button></Link>
                   </li>
                   <li>
-                    <Link to={`/Promotion/${state.year}/6`}><button>6 to 7</button></Link>
+                    <Link to={`/Promotion/${year}/6`}><button>6 to 7</button></Link>
                   </li>
                 </ul>
               </li>
@@ -307,7 +309,7 @@ const Navbar = () => {
         </li>
         :
         <li className="nav-item active d-flex flex-row">
-          <button onClick={logout}>Logout</button>
+          <button onClick={signOut}>Logout</button>
       </li> 
         }
       </div>

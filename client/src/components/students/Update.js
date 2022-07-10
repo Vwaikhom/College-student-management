@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "../../apis/api";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
 import DatePicker from "react-date-picker";
 import Select from 'react-select';
@@ -14,6 +14,9 @@ const Update = () => {
   const [subject,setSubject] = useState("");
   const [student, setStudent] = useState({});
   const [updateFields, setUpdateFields] = useState({});
+  const [SEX, setSex] = useState("");
+  const axiosPrivate = useAxiosPrivate();
+
   const subjects = [
     {label: "Physics", value: "PHC", program:"BS"},
     {label: "Chemistry", value:"CHM", program:"BS"},                           
@@ -30,6 +33,11 @@ const Update = () => {
     {label: "Physcholofy", value:"PSC", program:"BA"} ,                          
     {label: "Education", value:"EDN", program:"BA"}                           
   ]
+
+  const sex = [
+    {label: "M", value: "M"},
+    {label: "F", value: "F"}
+  ];
 
   const onInputChange = e => {
     setUpdateFields({...updateFields, [e.target.name]: e.target.value})
@@ -55,6 +63,9 @@ const Update = () => {
     //setUpdateFields({...updateFields, PROGRAM: subject.program})
   }
 
+  const handleSexChange = (sex) => {
+    setSex(sex.value);
+  }
 
   useEffect(() => {
     LoadStudent();
@@ -89,10 +100,10 @@ const Update = () => {
     //console.log(new Date(student.DOB.slice(0,19)));
     console.log(data);
 
-    const updateResult = await axios.put(`/profile/${course}/${sem}/${id}`, data);
+    const updateResult = await axiosPrivate.put(`/profile/${course}/${sem}/${id}`, data);
 
     if(updatedSubject !== ""){
-      const updateSubjectResult = await axios.post(`/updateHonours/${course}/${sem}/${id}`, {'SUB': updatedSubject})
+      const updateSubjectResult = await axiosPrivate.post(`/updateHonours/${course}/${sem}/${id}`, {'SUB': updatedSubject})
       console.log(updateSubjectResult);
       if(updateSubjectResult.statusText === "OK"){
         toast.success('Updated honours subject successfully!', {
@@ -121,33 +132,15 @@ const Update = () => {
   };
 
   const LoadStudent = async () => {
-    //console.log(course,sem,id)
-    const response = await axios.get(`/profile/${course}/${sem}/${id}`);
+
+    const response = await axiosPrivate.get(`/profile/${course}/${sem}/${id}`);
     const result = response.data[0];
-    //console.log(result);
 
-    // var tempDOB = result.DOB;
-    // var tempDATE_FORM_SUB = result.DATE_FORM_SUB;
-
-    // tempDOB = tempDOB.slice(0,19);
-    // tempDATE_FORM_SUB = tempDATE_FORM_SUB.slice(0,19);
-    
-    // setDOB(new Date(tempDOB));
-    // setDateFormSub(new Date(tempDATE_FORM_SUB));
-
-    // var final = await {...result, DOB : new Date(result.DOB.slice(0,19)), DATE_FORM_SUB: new Date(result.DATE_FORM_SUB.slice(0,19)) };
-    //console.log(final);
-    //setDateFormSub(result.final)
     setStudent(result);
     setUpdateFields(result);
     setUpdateDateFormSub(new Date(result.DATE_FORM_SUB));
     setUpdateDOB(new Date(result.DOB));
-    
-    // subjects.forEach((sub) => {
-    //   if(sub.value == result.SUB){
-    //     setSubject(sub.value)
-    //   }
-    // })
+    setSex(result.data.SEX);
     setSubject(result.SUB)
   };
 
@@ -167,38 +160,54 @@ const Update = () => {
               value={updateFields.STUDENT_NAME}
               onChange={e => onInputChange(e)}/>
           </div>
-          <label>UHID</label>
+          <label>EXAM ID</label>
           <div className="form-group mt-3">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter UHID"
-              name="UHID"
-              value={updateFields.UHID}
+              placeholder="Enter Exam ID"
+              name="EXM_ID"
+              value={updateFields.EXM_ID}
               onChange={e => onInputChange(e)}
             />
           </div>
-          <label>Roll Number</label>
+          <label>Enrollment ID</label>
           <div className="form-group mt-3">
             <input
-              type="number"
+              type="text"
               className="form-control form-control-lg"
-              placeholder="Enter Roll Number"
-              name="ROLL_NO"
-              value={updateFields.ROLL_NO}
-              onChange={e => onNumberInputChange(e)}
+              placeholder="Enter Enrollment ID"
+              name="ENROLL_ID"
+              value={updateFields.ENROLL_ID}
+              onChange={e => onInputChange(e)}
             />
           </div>
+          <label>University Registration ID</label>
+          <div className="form-group mt-3">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter University Registration ID"
+              name="UNIV_REG_ID"
+              value={updateFields.UNIV_REG_ID}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <label>University Exam Roll</label>
+          <div className="form-group mt-3">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter University Exam ID"
+              name="UNIV_EXM_ROLL"
+              value={updateFields.UNIV_EXM_ROLL}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
           <label>SEX</label>
           <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter SEX"
-              name="SEX"
-              value={updateFields.SEX}
-              onChange={e => onInputChange(e)}
-            />
+            <Select options={sex} value={{label: SEX}} onChange={handleSexChange}/>
           </div>
           <label>Date of Admission</label>
           <div className="form-group mt-3">

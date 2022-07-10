@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Pagination from '../layouts/pagination';
-import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
 import { ExportToCsv } from 'export-to-csv';
-import axios from "../../apis/api";
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AcademicRecords = () => {
 
-    const state = useContext(AcademicYearContext);
+    const year = localStorage.getItem("currentYear");
     const {sem} = useParams();
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
@@ -17,6 +16,7 @@ const AcademicRecords = () => {
     const [searchSubject, setSearchSubject] = useState("");
     const [students, setStudents] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
+    const axiosPrivate = useAxiosPrivate();
 
     const handleCheckChange = () => {
         setIsChecked(!isChecked);
@@ -24,12 +24,12 @@ const AcademicRecords = () => {
 
     const options = { 
         fieldSeparator: ',',
-        filename: `Academic_records_semester${sem}_${state.year}`,
+        filename: `Academic_records_semester${sem}_${year}`,
         quoteStrings: '"',
         decimalSeparator: '.',
         showLabels: true, 
         showTitle: true,
-        title: `Academic_records_semester${sem}_${state.year}`,
+        title: `Academic_records_semester${sem}_${year}`,
         useTextFile: false,
         useBom: true,
         useKeysAsHeaders: true,
@@ -40,10 +40,10 @@ const AcademicRecords = () => {
 
     useEffect(() => {
         loadStudents();
-    },[page,state.year]);
+    },[page,year,sem]);
 
     const loadStudents = async() => {
-        const result = await axios.get(`/AcademicRecords/${sem}/${state.year}?page=${page}&npp=${perPage}`);
+        const result = await axiosPrivate.get(`/AcademicRecords/${sem}/${year}?page=${page}&npp=${perPage}`);
         console.log(result);
         setStudents(result.data.results)
         if(result.data.pagination.numberofPages !== undefined){
@@ -64,11 +64,11 @@ const AcademicRecords = () => {
         //console.log(searchTitle);
         let url = "";
         if(isChecked == true){
-            url = `/SubjectWiseRecord/${sem}/${state.year}?subject=${searchSubject}&back=true`;
+            url = `/SubjectWiseRecord/${sem}/${year}?subject=${searchSubject}&back=true`;
         } else{
-            url = `/SubjectWiseRecord/${sem}/${state.year}?subject=${searchSubject}&back=false`;
+            url = `/SubjectWiseRecord/${sem}/${year}?subject=${searchSubject}&back=false`;
         }
-        const result = await axios.get(url);
+        const result = await axiosPrivate.get(url);
         //console.log(result);
         setStudents(result.data.results);
     }
@@ -94,10 +94,7 @@ const AcademicRecords = () => {
     }
 
     const handleMarksUpdate = (student) => async() => {
-        let result = await axios.put(`/updateAcademicRecord/${sem}/${state.year}/${student.ID}`, {
-            headers: {"Content-type": "application/json"},
-            data:  student
-        });
+        let result = await axiosPrivate.put(`/updateAcademicRecord/${sem}/${year}/${student.ID}`, {data:  student});
         //result = await result.json();
         console.log(result);
         if(result.statusText === "OK"){
@@ -114,10 +111,7 @@ const AcademicRecords = () => {
     }
 
     const handleBackRegister = (student) => async() => {
-        let result = await axios.post(`/BackStudents/back/${student.ID}`,{
-            headers: {"Content-type": "application/json"},
-            data: student
-        });
+        let result = await axiosPrivate.post(`/BackStudents/back/${student.ID}`,{data: student});
         //result = await result.json();
         console.log(result);
         if(result.statusText === "OK"){
@@ -144,7 +138,7 @@ const AcademicRecords = () => {
     return ( 
         <div className="container-fluid">
             <div className="d-grid gap-2 d-md-flex justify-content-center">
-                <h1>{state.year} Academic Records  Sem: {sem}</h1>
+                <h1>{year} Academic Records  Sem: {sem}</h1>
             </div>
             <div className="col-sm-8">
                 <div className="input-group mb-3 mt-3">

@@ -13,7 +13,7 @@ const queryAsync = Promise.promisify(db.query.bind(db))
 
 db.connect (function(err) {
     if(err) throw err;
-    console.log("Connected!");
+    console.log("Connected!")
 });
 
 module.exports = queryAsync;

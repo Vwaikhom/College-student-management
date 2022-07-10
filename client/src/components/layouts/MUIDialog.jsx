@@ -9,20 +9,24 @@ import {
 from '@mui/material';
 import { useState, useContext } from 'react';
 import React from 'react';
-import axios from "../../apis/api"
-import { AcademicYearContext } from '../../App';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useAuth from '../../hooks/useAuth';
 
 export const MUIDialog = (props) => {
 
-    const state = useContext(AcademicYearContext);
+    const year = localStorage.getItem("currentYear");
 
     const [open, setOpen] = useState(false);
 
+    const { auth } = useAuth();
+
+    const axiosPrivate = useAxiosPrivate();
+
     const handleConfirm = async() =>{
-        console.log(props.data.student.ID, state.year, props.data.sem);
-        const result = await axios.delete(`/profile/${state.year}/${props.data.sem}/${props.data.student.ID}`);
+        console.log(props.data.student.ID, year, props.data.sem);
+        const result = await axiosPrivate.delete(`/profile/${year}/${props.data.sem}/${props.data.student.ID}`);
         console.log(result);
         setOpen(false);
         if(result.statusText==="OK"){
@@ -40,7 +44,7 @@ export const MUIDialog = (props) => {
 
     return(
         <>
-        <Button color='warning' disabled={localStorage.getItem("token") == null} onClick={() => setOpen(true)}>Delete</Button>
+        <Button color='warning' disabled={auth.role !== "Admin"} onClick={() => setOpen(true)}>Delete</Button>
         <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
             <DialogTitle id='dialog-title'>Confirm</DialogTitle>
             <DialogContent>

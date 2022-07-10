@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./View.css";
-import axios from "axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const View = () => {
   const { course,sem,id } = useParams();
   const [student, setStudent] = useState({});
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     LoadStudent();
@@ -13,7 +14,7 @@ const View = () => {
 
   const LoadStudent = async () => {
     console.log(course,id);
-    const studentResult = await axios.get(
+    const studentResult = await axiosPrivate.get(
       `/profile/${course}/${sem}/${id}`
     );
     setStudent(studentResult.data[0]);

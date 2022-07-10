@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Pagination from '../layouts/pagination';
-import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
-import axios from '../../apis/api';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { ExportToCsv } from 'export-to-csv';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const BackStudents = () => {
-    const state = useContext(AcademicYearContext);
+    const year = localStorage.getItem("currentYear");
     const {sem} = useParams();
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
     const [totalPages, setTotalPages] = useState(1);
-    const [searchSubject, setSearchSubject] = useState("");
+    const [searchName, setSearchName] = useState("");
     const [students, setStudents] = useState([]);
+    const axiosPrivate = useAxiosPrivate();
 
     const paginate = (pageNumber) => {
         setPage(pageNumber);
@@ -38,26 +38,26 @@ const BackStudents = () => {
 
     useEffect(() => {
         loadStudents();
-    },[page,state.year]);
+    },[page,year]);
 
     const loadStudents = async() => {
-        const response = await axios.get(`/BackStudents`);
+        const response = await axiosPrivate.get(`/BackStudents`);
         console.log(response);
         setStudents(response.data)
-        if(response.pagination.numberofPages !== undefined){
-            setTotalPages(response.pagination.numberofPages);
-          }
+        // if(response.pagination.numberofPages !== undefined){
+        //     setTotalPages(response.pagination.numberofPages);
+        // }
     }
 
-    const onChangeSearchSubject = (e) => {
-        setSearchSubject(e.target.value);
+    const onChangeSearchName = (e) => {
+        setSearchName(e.target.value);
     }
 
-    const findBySubject = async() => {
+    const findByName = async() => {
         setPage(1);
         //console.log(searchTitle);
 
-        let result = await axios.get(`/BackStudents?subject=${searchSubject}`);
+        let result = await axiosPrivate.get(`/BackStudents?name=${searchName}`);
         console.log(result);
         //result = await result.json();
 
@@ -70,9 +70,7 @@ const BackStudents = () => {
     }
 
     const handleBackClear = (student) => async() => {
-        let result = await axios.put(`/BackStudents/${student.ID}?cleared=true`, {
-            data:  student
-        });
+        let result = await axiosPrivate.put(`/BackStudents/${student.ID}?cleared=true`, { data:  student});
         //result = await result.json();
         console.log(result);
         if(result.statusText === "OK"){
@@ -89,9 +87,7 @@ const BackStudents = () => {
     }
 
     const handleBackMarksUpdate = (student) => async() => {
-        let result = await axios.put(`/BackStudents/${student.ID}`, {
-            data:  student
-        });
+        let result = await axiosPrivate.put(`/BackStudents/${student.ID}`, { data:  student});
         //result = await result.json();
         console.log(result);
         if(result.statusText === "OK"){
@@ -122,14 +118,14 @@ const BackStudents = () => {
                     type="text"
                     className="form-control"
                     placeholder="Search by Subject"
-                    value={searchSubject}
-                    onChange={onChangeSearchSubject}
+                    value={searchName}
+                    onChange={onChangeSearchName}
                 />
                 <div className="d-grid gap-2 d-md-flex justify-content-md-center">
                     <button
                     className="btn btn-outline-secondary ml-2"
                     type="button"
-                    onClick={findBySubject}
+                    onClick={findByName}
                     >
                     Search
                     </button>
@@ -150,7 +146,6 @@ const BackStudents = () => {
                     <th scope="col">Academic Year</th>
                     <th scope="col">Course</th>
                     <th scope="col">Subject Code</th>
-                    <th scope="col">IA</th>
                     <th scope="col">EA</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -165,11 +160,6 @@ const BackStudents = () => {
                         <td>{student.SEM_YEAR}</td>
                         <td>{student.COURSE}</td>
                         <td>{student.SUB_CODE}</td>
-                        <td>
-                            <div className="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <input type="text" placeholder="IA" name = "IA" value={student.IA!==null ? student.IA : ""} onChange={handleMarkChange(student)} />  
-                            </div>
-                        </td>
                         <td>
                             <div className="d-grid gap-2 d-md-flex justify-content-md-center">
                                 <input type="text" placeholder="EA" name = "EA" value={student.EA!==null ? student.EA : ""} onChange={handleMarkChange(student)} /> 

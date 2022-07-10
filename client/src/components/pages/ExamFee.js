@@ -3,25 +3,26 @@ import Pagination from '../layouts/pagination';
 import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
 import { ExportToCsv } from 'export-to-csv';
-import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const ExamFee = () => {
     const [students, setStudents] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
     const [totalPages, setTotalPages] = useState(1);
-    const state = useContext(AcademicYearContext);
+    const year = localStorage.getItem("currentYear");
     const [searchTitle, setSearchTitle] = useState("");
     const {sem} = useParams();
+    const axiosPrivate = useAxiosPrivate();
 
     const options = { 
       fieldSeparator: ',',
-      filename: `ExamFee_List_semester${sem}_${state.year}`,
+      filename: `ExamFee_List_semester${sem}_${year}`,
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true, 
       showTitle: true,
-      title: `ExamFee_List_semester${sem}_${state.year}`,
+      title: `ExamFee_List_semester${sem}_${year}`,
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true,
@@ -32,7 +33,7 @@ const ExamFee = () => {
 
 
     const loadStudents = async() => {
-        const response = await axios.get(`/ExaminationFee/${sem}/${state.year}?page=${page}&npp=${perPage}`);
+        const response = await axiosPrivate.get(`/ExaminationFee/${sem}/${year}?page=${page}&npp=${perPage}`);
         //const result = await response.json();
         console.log(response);
         setStudents(response.data.results)
@@ -57,9 +58,7 @@ const ExamFee = () => {
         flag = "PAID";
       }
 
-      const response = await axios.put(`/ExaminationFee/${sem}/${state.year}/${student.STUDENT_ID}`, {
-          data: student
-      });
+      const response = await axiosPrivate.put(`/ExaminationFee/${sem}/${year}/${student.STUDENT_ID}`, {data: student});
       //const result = await response.json();
       console.log(response);
       const updated = students.map(ele => ele.STUDENT_ID === student.STUDENT_ID ? {...ele, EXM_FEE : flag} : ele)
@@ -68,14 +67,14 @@ const ExamFee = () => {
 
     useEffect(() => {
         loadStudents();
-    }, [page,sem,state.year])
+    }, [page,sem,year])
 
     const paginate = (pageNumber) => {
         setPage(pageNumber);
     }
 
     const handleDownload = async() => {
-      const result = await fetch(`/download/examFee/${sem}/${state.year}`);
+      const result = await fetch(`/download/examFee/${sem}/${year}`);
       const res = await result.json();
       console.log(res);
       //setDownloadData(res);
@@ -89,7 +88,7 @@ const ExamFee = () => {
     const findByTitle = async() => {
       setPage(1);
       console.log(searchTitle);
-      const result = await axios.get(`/ExaminationFee/${sem}/${state.year}?title=${searchTitle}`);
+      const result = await axiosPrivate.get(`/ExaminationFee/${sem}/${year}?title=${searchTitle}`);
       console.log(result);
       setStudents(result.data.results);
     }

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Pagination from '../layouts/pagination';
-import { AcademicYearContext } from '../../App';
 import { ExportToCsv } from 'export-to-csv';
-import axios from '../../apis/api';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const SubjectsCombination = () => {
   const [studentSubjectCombo, setStudentSubjectCombo] = useState([]);
@@ -12,19 +11,19 @@ const SubjectsCombination = () => {
   const [perPage, setPerPage] = useState(20);
   const [totalPages,setTotalPages] = useState(1);
   //const [downloaddata, setDownloadData] = useState([]);
-  const { year } = useContext(AcademicYearContext);
+  const year = localStorage.getItem("currentYear");
   const {sem} = useParams();
-  const state = useContext(AcademicYearContext);
   const [searchTitle, setSearchTitle] = useState("");
+  const axiosPrivate = useAxiosPrivate();
 
   const options = { 
     fieldSeparator: ',',
-    filename: `Subject_Combination_Semester${sem}_${state.year}`,
+    filename: `Subject_Combination_Semester${sem}_${year}`,
     quoteStrings: '"',
     decimalSeparator: '.',
     showLabels: true, 
     showTitle: true,
-    title: `Subject_Combination_Semester${sem}_${state.year}`,
+    title: `Subject_Combination_Semester${sem}_${year}`,
     useTextFile: false,
     useBom: true,
     useKeysAsHeaders: true,
@@ -35,10 +34,10 @@ const SubjectsCombination = () => {
 
   useEffect(() => {
     LoadPage();
-  }, [page,state.year,sem]);
+  }, [page,year,sem]);
 
   const LoadPage = async() => {
-    const response = await axios.get(`/subjectCombination/${state.year}/${sem}?page=${page}&npp=${perPage}`); 
+    const response = await axiosPrivate.get(`/subjectCombination/${year}/${sem}?page=${page}&npp=${perPage}`); 
     console.log(response);
     setStudentSubjectCombo(response.data.results);
 
@@ -50,7 +49,7 @@ const SubjectsCombination = () => {
   const findByTitle = async() => {
     setPage(1);
     console.log(searchTitle);
-    const result = await axios.get(`/subjectCombination/${state.year}/${sem}?title=${searchTitle}`);
+    const result = await axiosPrivate.get(`/subjectCombination/${year}/${sem}?title=${searchTitle}`);
     console.log(result);
     // const result = await axios.get(`http://localhost:3001/profile/${state.year}/${sem}?title=${searchTitle}`);
     setStudentSubjectCombo(result.data.results);
@@ -75,17 +74,14 @@ const SubjectsCombination = () => {
     console.log(student);
     //const formData = new FormData();
     //formData.append()
-    const result = await axios.post(`/subjectCombination/${year}/${sem}/${student.ID}`, {
-      headers:{"Content-type": "application/json"},
-      data:  student
-    });
+    const result = await axiosPrivate.post(`/subjectCombination/${year}/${sem}/${student.ID}`, {data:  student});
 
     //const response = await result.json();
     console.log(result);
   }
 
   const handleDownload = async() => {
-    const result = await fetch(`/download/subjectCombination/${sem}/${state.year}`);
+    const result = await fetch(`/download/subjectCombination/${sem}/${year}`);
     const res = await result.json();
     // console.log(result);
     // setDownloadData(res);

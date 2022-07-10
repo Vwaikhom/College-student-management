@@ -23,22 +23,27 @@ import AcademicRecords from "./components/pages/AcademicRecord";
 import BackStudents from "./components/pages/BackStudents";
 import Login from "./components/user/Login";
 import RequireAuth from "./components/RequireAuth";
+import Unauthorized from "./components/pages/Unauthorized";
+import PersistLogin from "./components/PersistLogin";
 //import YearProvider from "./YearProvider";
 
+// const ROLES = {
+//   'Editor': 1984,
+//   'Admin': 5150
+// }
 
-export const AcademicYearContext = createContext({
-  year: "",
-  setYear: () => {}
-});
+// export const AcademicYearContext = createContext({
+//   year: "",
+//   setYear: () => {}
+// });
 
 export const App = () => {
-  const [year,setYear] = useState(new Date().getFullYear());
-  const value = { year, setYear };
+  // const [year,setYear] = useState(new Date().getFullYear());
+  // const value = { year, setYear };
   return (
     
     <Router>
       <div className="App">
-      <AcademicYearContext.Provider value={value} >
         <Navbar />
         {/* <AcademicYearSwitcher /> */}
         <Routes>
@@ -49,20 +54,25 @@ export const App = () => {
 
           <Route path="/Login" element={<Login />} />
 
-          <Route element={<RequireAuth />} > 
-            <Route exact path="/academicRecords/:year/:sem" element={<AcademicRecords />} />
-            <Route exact path="/BackStudents" element={<BackStudents />} />
-            <Route path="/AddSubjectCombination1" element={<NewSubjectCombo />}/>
-            <Route path="/subjectCombination/:year/:sem" element={<SubjectsCombination />} />
-            <Route path="/Promotion/:year/:sem" element={<Promotion />} />
-            <Route path="/CreateStudentProfile" element={<Create />} />
-            <Route path="/ExaminationFee/:year/:sem" element={<ExamFee />} />
-            <Route path="/AdmissionFee/:year/:sem" element={<AdmissionFee />} />
-            <Route exact path="/profile/:year/:sem/:id/update" element={<Update />} />
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth allowedRoles={["Admin","Editor"]}/>} > 
+              <Route exact path="/academicRecords/:year/:sem" element={<AcademicRecords />} />
+              <Route path="/CreateStudentProfile" element={<Create />} />
+            </Route>
+              
+            <Route element={<RequireAuth allowedRoles={["Admin"]}/>} > 
+              <Route exact path="/BackStudents" element={<BackStudents />} />
+              <Route path="/AddSubjectCombination1" element={<NewSubjectCombo />}/>
+              <Route path="/subjectCombination/:year/:sem" element={<SubjectsCombination />} />
+              <Route path="/Promotion/:year/:sem" element={<Promotion />} />
+              
+              <Route path="/ExaminationFee/:year/:sem" element={<ExamFee />} />
+              <Route path="/AdmissionFee/:year/:sem" element={<AdmissionFee />} />
+              <Route exact path="/profile/:year/:sem/:id/update" element={<Update />} />
+            </Route>
           </Route>
-          
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
-        </AcademicYearContext.Provider>
       </div>
     </Router>
     

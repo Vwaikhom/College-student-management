@@ -3,16 +3,17 @@ const router = express.Router({ mergeParams: true });
 const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
-const verifyJWT = require('../../middleware/auth');
-
+const verifyJWT = require('../../middleware/verifyJWT');
+const verifyRoles = require('../../middleware/verifyRoles')
 
 router.route('/')
     .get( (req,res) => {
-        if(req.query.subject){
-            let sub = req.query.subject;
-            sub = `'${sub}'`;
-            queryAsync('SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER AS CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE,a.IA,a.EA FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID LEFT JOIN back_student b ON s.ID = b.STUDENT_ID AND a.SUB_CODE = b.SUB_CODE WHERE b.BACK_CLEARED = "N" AND b.SUB_CODE = ' + sub)
+        if(req.query.name){
+            let name = req.query.name;
+            name = `'%${name}%'`;
+            queryAsync('SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER AS CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE,a.IA,a.EA FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID LEFT JOIN back_student b ON s.ID = b.STUDENT_ID AND a.SUB_CODE = b.SUB_CODE WHERE b.BACK_CLEARED = "N" AND s.STUDENT_NAME LIKE ' + name )
             .then((result) => {
+                console.log(result);
                 res.json(result);
             })
             .catch((e) => {
@@ -20,7 +21,7 @@ router.route('/')
             })
         }
         else{
-            queryAsync('SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER AS CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE,b.IA,b.EA FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID LEFT JOIN back_student b ON s.ID = b.STUDENT_ID AND a.SUB_CODE = b.SUB_CODE WHERE b.BACK_CLEARED = "N"')
+            queryAsync('SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER AS CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE,b.EA FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID LEFT JOIN back_student b ON s.ID = b.STUDENT_ID AND a.SUB_CODE = b.SUB_CODE WHERE b.BACK_CLEARED = "N"')
             .then((result) => {
                 res.json(result);
             })
@@ -30,13 +31,13 @@ router.route('/')
         }
     })
 router.route('/back/:id')
-    .post(verifyJWT, (req,res) => {
+    .post(verifyJWT,verifyRoles("Admin","Editor"), (req,res) => {
         const {id} = req.params;
         const IA = req.body.data.IA;
         const EA = req.body.data.EA;
         let sub = req.body.data.SUB_CODE;
         //sub = `'${sub}'`; 
-        queryAsync('INSERT INTO back_student (SUB_CODE,IA,EA,BACK_CLEARED,STUDENT_ID) VALUES (?,?,?,"N",?)',[sub,IA,EA,id])
+        queryAsync('INSERT INTO back_student (SUB_CODE,EA,BACK_CLEARED,STUDENT_ID) VALUES (?,?,"N",?)',[sub,EA,id])
         .then((result) => {
             console.log(result);
             res.json(result);
@@ -45,7 +46,7 @@ router.route('/back/:id')
 
 
 router.route('/:id')
-    .put(verifyJWT, (req,res) => {
+    .put(verifyJWT, verifyRoles("Admin"),(req,res) => {
         const {id} = req.params;
         const IA = req.body.data.IA;
         const EA = req.body.data.EA;

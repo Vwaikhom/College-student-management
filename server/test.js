@@ -2,12 +2,12 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const queryAsync = require('./db/connection');
 
-function createUser (username, password){
+function createUser (username, password, role){
     bcrypt.hash(password, saltRounds, (err, hash) =>  {
         if(err){
             console.log(err)
         } else{
-            queryAsync('INSERT INTO USER (username, password) VALUES (?,?)', [username, hash])
+            queryAsync('INSERT INTO USER (username, password,role) VALUES (?,?,?)', [username, hash,role])
             .then((response) => {
                 console.log(response);
             })
@@ -18,4 +18,4 @@ function createUser (username, password){
     });
 }
 
-createUser('admin', 'aDmin@58');
+createUser('editor', 'ediTor#22', 'Editor');

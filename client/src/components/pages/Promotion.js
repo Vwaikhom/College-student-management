@@ -1,22 +1,23 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Pagination from '../layouts/pagination';
-import { AcademicYearContext } from '../../App';
 import { useParams } from 'react-router-dom';
-import axios from "../../apis/api"
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { MUIPromote } from '../layouts/MUIPromote';
 
 const Promotion = () => {
     const [students, setStudents] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
     const [totalPages, setTotalPages] = useState(1);
-    const state = useContext(AcademicYearContext);
+    const year = localStorage.getItem("currentYear");
     const {sem} = useParams();
     const [fetchData, setFetchData] = useState(true);
+    const axiosPrivate = useAxiosPrivate();
 
     const triggerDataFetch = () => setFetchData(t => !t);
 
     const loadStudents = async() => {
-        const response = await axios.get(`/Promotion/${sem}/${state.year}?page=${page}&npp=${perPage}`);
+        const response = await axiosPrivate.get(`/Promotion/${sem}/${year}?page=${page}&npp=${perPage}`);
         //const result = await response.json();
         console.log(response);
         setStudents(response.data.results)
@@ -25,31 +26,17 @@ const Promotion = () => {
           }
     }
 
-    const handlePromote = (student) => async(e) => {
-        e.preventDefault();
-        console.log(student);
-        const response = await axios.post(`/Promotion/${sem}/${state.year}/${student.ID}`, {
-            data: student
-        });
-        //const result = await response.json();
-        console.log(response);
-        //setStudents({ ...students, })
-        triggerDataFetch();
-      }
-
     const handleDemote = (student) => async(e) => {
         e.preventDefault();
         console.log(student);
         let currSem = parseInt(sem) + 1;
-        let currYear = parseInt(state.year);
+        let currYear = parseInt(year);
 
         if(currSem % 2 !== 0){
           currYear = currYear + 1;  
         }
 
-        const response = await axios.post(`/Demotion/${currSem}/${currYear}/${student.ID}`, {
-            data: student
-        });
+        const response = await axiosPrivate.post(`/Demotion/${currSem}/${currYear}/${student.ID}`,{ data: student});
         //const result = await response.json();
         console.log(response);
         triggerDataFetch();
@@ -57,7 +44,7 @@ const Promotion = () => {
 
     useEffect(() => {
         loadStudents();
-    }, [page,sem,state.year,fetchData])
+    }, [page,sem,year,fetchData])
 
 
     const paginate = (pageNumber) => {
@@ -87,7 +74,7 @@ const Promotion = () => {
                 <td>{student.ADM_FEE}</td>
                 <td>{student.EXM_FEE}</td>
                 <td>
-                  { student.PROMOTED === 'N' ? <button className='btn btn-primary mr-2' onClick={handlePromote(student)}>Promote</button> : <button className='btn btn-danger mr-2' onClick={handleDemote(student)}>Demote</button>}
+                  { student.PROMOTED === 'N' ? <MUIPromote data={{'student':student,'sem':sem}}/> : <button className='btn btn-danger mr-2' onClick={handleDemote(student)}>Demote</button>}
                 </td>
               </tr>
             ) }

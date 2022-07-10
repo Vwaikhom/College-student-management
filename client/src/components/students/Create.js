@@ -3,7 +3,7 @@ import DatePicker from 'react-date-picker';
 import Select from 'react-select';
 import {Link} from 'react-router-dom';
 import NewSubjectCombo from "../pages/NewSubjectCombo";
-import axios from "../../apis/api";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,7 +11,7 @@ const Create = () => {
   const [STUDENT_NAME,setStudentName] = useState("");
   const [UHID,setUHID] = useState(null);
   const [SEX,setSex] = useState("");
-  const [ROLL_NO, setRollNo] = useState("");
+  const [EXM_ID, setEXMID] = useState("");
   const [DATE_FORM_SUB, setDateFormSub] = useState(new Date());
   const [PHOTO_URL, setPhotoURL] = useState("");
   const [PRESENT_ADDRESS, setPresentAddress] = useState("");
@@ -27,15 +27,18 @@ const Create = () => {
   const [EMAIL_ID, setEmail] = useState("");
   const [STUDENT_MOBILE, setStudentPhoneNo] = useState("");
   const [CATEGORY, setCategory] = useState("");
-  const [UNIV_ROLL, setUnivRoll] = useState("");
+  const [ENROLL_ID, setEnroll] = useState("");
   const [CLASS12_BOARD, setClass12Board] = useState("");
   const [CLASS12_ROLL, setclass12Roll] = useState("");
   const [PASSOUT_YEAR, setPassOutYear] = useState(0);
   const [DOB, setDOB] = useState(new Date());
   const [PROGRAM, setProgram] = useState("");
   const [SUB, setHonoursSubject] = useState("");
-  const [isAdmin,setisAdmin] = useState(true);
-  const [insertID,setInsertID] = useState(null);
+  const [UNIV_REG_ID,setUnivReg] = useState("");
+  const [UNIV_EXM_ROLL,setUnivExmRoll] = useState("");
+  const [insertID, setInsertID] = useState("");
+
+  const axiosPrivate  = useAxiosPrivate();
 
   const subjects = [
     {label: "Physics", value: "PHC", program:"BS"},
@@ -45,19 +48,28 @@ const Create = () => {
     {label: "Zoology", value:"ZOO", program:"BS"},                           
     {label: "Biochemistry", value:"BCH", program:"BS"},                           
     {label: "English", value:"ESL", program:"BA"},                           
-    {label: "Manipuri", value:"MSL", program:"BA"},                           
+    {label: "Manipuri", value:"MIL", program:"BA"},                           
     {label: "Economics", value:"ECO", program:"BA"},                           
     {label: "Geography", value:"GEG", program:"BA"},                           
     {label: "History", value:"HIS", program:"BA"} ,                          
     {label: "Philosophy", value:"PHI", program:"BA"},                           
-    {label: "Physcholofy", value:"PSC", program:"BA"} ,                          
+    {label: "PolScience", value:"PSC", program:"BA"} ,                          
     {label: "Education", value:"EDN", program:"BA"}                           
   ]
+
+  const sex = [
+    {label: "M", value: "M"},
+    {label: "F", value: "F"}
+  ];
 
   const handleSubjectChange = (subject) => {
     console.log(subject);
     setProgram(subject.program);
     setHonoursSubject(subject.value);
+  }
+
+  const handleSexChange = (sex) => {
+    setSex(sex.value);
   }
 
   const handleSubmit = async (event) => {
@@ -94,17 +106,19 @@ const Create = () => {
         CLASS12_ROLL,
         PASSOUT_YEAR,
         PROGRAM,
-        SUB
+        SUB,
+        EXM_ID,
+        ENROLL_ID,
+        UNIV_REG_ID,
+        UNIV_EXM_ROLL
     }
 
-    const response = await axios.post(`/profile/`, {
-      data: student
-    })
+    const response = await axiosPrivate.post(`/profile/`, {data: student})
     //const json = await response.json();
     //console.log(json);
     setInsertID(response.data);
     console.log(response.status)
-    if(response.statusText === "OK"){
+    if(insertID !== ""){
       toast.success('Added Successfully!', {
         position: "top-center",
         autoClose: 5000,
@@ -133,27 +147,54 @@ const Create = () => {
               value={STUDENT_NAME}
               onChange={(e) => setStudentName(e.target.value)}/>
           </div>
-          <label>UHID</label>
+          <label>EXAM ID</label>
           <div className="form-group mt-3">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter UHID"
-              name="UHID"
-              value={UHID}
-              onChange={(e) => setUHID(e.target.value)}
+              placeholder="Enter Exam ID"
+              name="EXM_ID"
+              value={EXM_ID}
+              onChange={(e) => setEXMID(e.target.value)}
             />
           </div>
-          <label>SEX</label>
+          <label>Enrollment ID</label>
           <div className="form-group mt-3">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter SEX"
-              name="SEX"
-              value={SEX}
-              onChange={(e) => setSex(e.target.value)}
+              placeholder="Enter Enrollment ID"
+              name="ENROLL_ID"
+              value={ENROLL_ID}
+              onChange={(e) => setEnroll(e.target.value)}
             />
+          </div>
+          <label>University Registration ID</label>
+          <div className="form-group mt-3">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter University Registration ID"
+              name="UNIV_REG_ID"
+              value={UNIV_REG_ID}
+              onChange={(e) => setUnivReg(e.target.value)}
+            />
+          </div>
+          <label>University Exam Roll</label>
+          <div className="form-group mt-3">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter University Exam ID"
+              name="UNIV_EXM_ROLL"
+              value={UNIV_EXM_ROLL}
+              onChange={(e) => setUnivExmRoll(e.target.value)}
+            />
+          </div>
+
+          <label>SEX</label>
+          <div className="form-group mt-3">
+            <Select options={sex} onChange={handleSexChange}/>
           </div>
           <label>Date of Form Submission</label>
           <div className="form-group mt-3">
@@ -358,11 +399,6 @@ const Create = () => {
             Add Student
           </button>
         </form>
-        {/* <div className="text-center mb-4">        
-            <Link className="btn btn-primary" id="button" to="/AddSubjectCombination1">
-                Add Subject Combination
-            </Link>
-        </div> */}
       </div>
       <ToastContainer
           position="top-center"

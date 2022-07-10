@@ -3,7 +3,8 @@ const router = express.Router({ mergeParams: true });
 const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
-const verifyJWT = require('../../middleware/auth');
+const verifyJWT = require('../../middleware/verifyJWT');
+const verifyRoles = require('../../middleware/verifyRoles');
 
 let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "student-profile")})
 const pagination = sql.Queires.pagination;
@@ -18,7 +19,7 @@ router.route('/:year/:sem')
     });
 
 router.route('/:year/:sem/:id')
-    .post(verifyJWT,(req,res) => {
+    .post(verifyJWT,verifyRoles("Admin"),(req,res) => {
         let {sem,id} = req.params;
         sem = parseInt(sem);
         id = parseInt(id);
