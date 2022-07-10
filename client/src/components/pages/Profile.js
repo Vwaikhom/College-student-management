@@ -127,7 +127,7 @@ const Profile = () => {
           <tr className="table-dark">
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Roll Number</th>
+            <th scope="col">College Roll Number</th>
             <th scope="col">Phone Number</th>
             <th scope="col">Email</th>
             <th scope="col">Action</th>
@@ -138,7 +138,7 @@ const Profile = () => {
             <tr>
               <th scope="row">{index + 1}</th>
               <td>{student.STUDENT_NAME}</td>
-              <td>{student.ROLL_NO}</td>
+              <td>{student.COLLEGE_ROLL_NO}</td>
               <td>{student.STUDENT_MOBILE}</td>
               <td>{student.EMAIL_ID}</td>
               <td>

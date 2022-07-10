@@ -14,7 +14,7 @@ WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?  AND sem.PRMOTED = 'N' AND s.STUDENT
 
 router.route('/')
     .post(verifyJWT,verifyRoles("Admin","Editor"),(req,res) => {
-    console.log(req.body);
+    //console.log(req.body);
     let query = "CALL NEW_STUDENT";
     let values = "(";
     Object.getOwnPropertyNames(req.body.data).forEach(val => {
@@ -36,8 +36,16 @@ router.route('/')
     let sqlQuery = (query + values);
     queryAsync(sqlQuery).
     then((result) => {
-        console.log(result[0][0].ID);
-        res.json(result[0][0].ID);
+        const ID = result[0][0].ID;
+        //res.json(result[0][0].ID);
+        queryAsync('SELECT COLLEGE_ROLL_NO FROM student_profile WHERE ID = ?',[ID])
+        .then((roll) => {
+            console.log(roll);
+            res.json({ROLL_NUMBER: roll[0].COLLEGE_ROLL_NO});
+        })
+    })
+    .catch((err) => {
+        res.err({err: err});
     })
 });
 

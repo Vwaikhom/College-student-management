@@ -54,7 +54,7 @@ const Create = () => {
     {label: "History", value:"HIS", program:"BA"} ,                          
     {label: "Philosophy", value:"PHI", program:"BA"},                           
     {label: "PolScience", value:"PSC", program:"BA"} ,                          
-    {label: "Education", value:"EDN", program:"BA"}                           
+    {label: "Education", value:"EDU", program:"BA"}                           
   ]
 
   const sex = [
@@ -116,8 +116,8 @@ const Create = () => {
     const response = await axiosPrivate.post(`/profile/`, {data: student})
     //const json = await response.json();
     //console.log(json);
-    setInsertID(response.data);
-    console.log(response.status)
+    setInsertID(response.data.ROLL_NUMBER);
+    console.log(response)
     if(insertID !== ""){
       toast.success('Added Successfully!', {
         position: "top-center",
@@ -411,7 +411,7 @@ const Create = () => {
           draggable
           pauseOnHover
         />
-      {/* {(isAdmin == true && insertID !== null) ? <NewSubjectCombo id={insertID}/> : null} */}
+      {(insertID !== null) ? <div className="container py-4" id="center"><h1>College Roll Number: {insertID}</h1></div> : null}
     </div>
   );
 };
