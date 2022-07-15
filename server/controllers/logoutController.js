@@ -14,11 +14,11 @@ const handleLogout = async (req, res) => {
         const user = response[0].username;
         queryAsync("UPDATE user SET refresh_token = '' WHERE username = ?",[user]);
 
-        res.clearCookie('jwt', { httpOnly: true,sameSite: 'None', secure: true });
+        res.clearCookie('jwt', { httpOnly: true });
         res.sendStatus(204);
       }
       else{
-        res.clearCookie('jwt', { httpOnly: true,sameSite: 'None', secure: true });
+        res.clearCookie('jwt', { httpOnly: true });
         res.sendStatus(204);
       }
     })

@@ -7,7 +7,8 @@ const db = mysql.createConnection({
     host: "localhost",
     password: process.env.DB_CONNECTION_PASSWORD,
     database: "collegedbv1",
-    timezone: 'Z'
+    timezone: 'Z',
+    multipleStatements: true
 });
 const queryAsync = Promise.promisify(db.query.bind(db))
 

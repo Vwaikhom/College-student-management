@@ -31,7 +31,10 @@ const View = () => {
           <b>Name:</b> {student.STUDENT_NAME}
         </li>
         <li className="list-group-item">
-          <b>Roll Number:</b> {student.ROLL_NO}
+          <b>Roll Number:</b> {student.COLLEGE_ROLL_NO}
+        </li>
+        <li className="list-group-item">
+          <b>Enrollment ID:</b> {student.ENROLLMENT_ID}
         </li>
         <li className="list-group-item">
           <b>DOB:</b> {student.DOB}
@@ -76,16 +79,7 @@ const View = () => {
           <b>Passout Year:</b> {student.PASSOUT_YEAR}
         </li>
         <li className="list-group-item">
-          <b>Subject Code 1:</b> {student.SUB_CODE1}
-        </li>
-        <li className="list-group-item">
-          <b>Subject Code 2:</b> {student.SUB_CODE2}
-        </li>
-        <li className="list-group-item">
-          <b>Subject Code 3:</b> {student.SUB_CODE3}
-        </li>
-        <li className="list-group-item">
-          <b>Subject Code FC:</b> {student.SUB_CODE_FC}
+          <b>Honours Subject:</b> {student.SUB}
         </li>
       </ul>
 

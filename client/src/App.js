@@ -19,33 +19,20 @@ import ExamFee from "./components/pages/ExamFee";
 import NewSubjectCombo from "./components/pages/NewSubjectCombo";
 import AdmissionFee from "./components/pages/AdmissionFee";
 import Promotion from "./components/pages/Promotion";
-import AcademicRecords from "./components/pages/AcademicRecord";
+import SubjectWiseRecord from "./components/pages/SubjectWiseRecord";
+import StudentWiseRecord from "./components/pages/StudentWiseRecord";
 import BackStudents from "./components/pages/BackStudents";
 import Login from "./components/user/Login";
 import RequireAuth from "./components/RequireAuth";
 import Unauthorized from "./components/pages/Unauthorized";
 import PersistLogin from "./components/PersistLogin";
-//import YearProvider from "./YearProvider";
-
-// const ROLES = {
-//   'Editor': 1984,
-//   'Admin': 5150
-// }
-
-// export const AcademicYearContext = createContext({
-//   year: "",
-//   setYear: () => {}
-// });
 
 export const App = () => {
-  // const [year,setYear] = useState(new Date().getFullYear());
-  // const value = { year, setYear };
   return (
     
     <Router>
       <div className="App">
         <Navbar />
-        {/* <AcademicYearSwitcher /> */}
         <Routes>
           <Route path='*' element={<NotFound />} />
           <Route exact path="/" element={<Home />} />
@@ -56,7 +43,8 @@ export const App = () => {
 
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth allowedRoles={["Admin","Editor"]}/>} > 
-              <Route exact path="/academicRecords/:year/:sem" element={<AcademicRecords />} />
+              <Route exact path="/academicRecords/studentWiseRecord/:year/:sem" element={<StudentWiseRecord />} />
+              <Route exact path="/academicRecords/subjectWiseRecord/:year/:sem" element={<SubjectWiseRecord />} />
               <Route path="/CreateStudentProfile" element={<Create />} />
             </Route>
               

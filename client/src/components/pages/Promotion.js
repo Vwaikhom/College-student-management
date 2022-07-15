@@ -12,6 +12,8 @@ const Promotion = () => {
     const year = localStorage.getItem("currentYear");
     const {sem} = useParams();
     const [fetchData, setFetchData] = useState(true);
+    const [searchTitle, setSearchTitle] = useState("");
+
     const axiosPrivate = useAxiosPrivate();
 
     const triggerDataFetch = () => setFetchData(t => !t);
@@ -51,8 +53,39 @@ const Promotion = () => {
         setPage(pageNumber);
     }
 
+    const onChangeSearchTitle = (e) => {
+      setSearchTitle(e.target.value);
+    }
+
+    const findByTitle = async() => {
+      setPage(1);
+      console.log(searchTitle);
+      const result = await axiosPrivate.get(`/Promotion/${sem}/${year}?title=${searchTitle}`);
+      setStudents(result.data.results);
+    }
+
     return ( 
         <div className="container-fluid">
+          <div className="col-sm-8">
+          <div className="input-group mb-3 mt-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search by title"
+              value={searchTitle}
+              onChange={onChangeSearchTitle}
+            />
+            <div className="d-grid gap-2 d-md-flex justify-content-md-center">
+              <button
+                className="btn btn-outline-secondary ml-2"
+                type="button"
+                onClick={findByTitle}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+          </div>
         <Pagination perPage={perPage} numberofPages={totalPages} paginate = {paginate}/>
         <table className="table table-bordered">
           <thead className="thead-dark">

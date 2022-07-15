@@ -6,7 +6,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AcademicRecords = () => {
+const SubjectWiseRecord = () => {
 
     const year = localStorage.getItem("currentYear");
     const {sem} = useParams();
@@ -43,7 +43,7 @@ const AcademicRecords = () => {
     },[page,year,sem]);
 
     const loadStudents = async() => {
-        const result = await axiosPrivate.get(`/AcademicRecords/${sem}/${year}?page=${page}&npp=${perPage}`);
+        const result = await axiosPrivate.get(`/AcademicRecords/subjectWise/${year}/${sem}?page=${page}&npp=${perPage}`);
         console.log(result);
         setStudents(result.data.results)
         if(result.data.pagination.numberofPages !== undefined){
@@ -61,41 +61,24 @@ const AcademicRecords = () => {
 
     const findBySubject = async() => {
         setPage(1);
-        //console.log(searchTitle);
-        let url = "";
-        if(isChecked == true){
-            url = `/SubjectWiseRecord/${sem}/${year}?subject=${searchSubject}&back=true`;
-        } else{
-            url = `/SubjectWiseRecord/${sem}/${year}?subject=${searchSubject}&back=false`;
-        }
-        const result = await axiosPrivate.get(url);
-        //console.log(result);
+        const result = await axiosPrivate.get(`/AcademicRecords/subjectWise/${year}/${sem}?title=${searchSubject}`);
+        console.log(result);
         setStudents(result.data.results);
     }
 
-    // const handleChange = (student) => (event) => {
-    //     const newCombo = students.map(ele => ele.ID === student.ID ? {...ele, [event.target.name] : event.target.value} : ele)
-    //     setStudents(newCombo)
-    // }
 
     const handleMarkChange = (student) => (event) => {
         const newCombo = students.map(ele => ele.ID === student.ID && ele.SUB_CODE === student.SUB_CODE ? {...ele, [event.target.name] : event.target.value} : ele)
         setStudents(newCombo)
     }
 
-    // const handleEAChange = (student) => (event) => {
-    //     const newCombo = students.map(ele => ele.ID === student.ID && ele.SUB_CODE === student.SUB_CODE ? {...ele, [event.target.name] : event.target.value} : ele)
-    //     setStudents(newCombo)
-    // }
-
     const handleResultChange = (student) => (event) => {
         const newCombo = students.map(ele => ele.ID === student.ID && ele.SUB_CODE === student.SUB_CODE ? {...ele, [event.target.name] : event.target.value} : ele)
         setStudents(newCombo)
     }
-
+   
     const handleMarksUpdate = (student) => async() => {
-        let result = await axiosPrivate.put(`/updateAcademicRecord/${sem}/${year}/${student.ID}`, {data:  student});
-        //result = await result.json();
+        let result = await axiosPrivate.put(`/AcademicRecords/subjectWise/${year}/${sem}/${student.ID}`, {data:  student});
         console.log(result);
         if(result.statusText === "OK"){
             toast.success('Updated marks successfully!', {
@@ -112,7 +95,6 @@ const AcademicRecords = () => {
 
     const handleBackRegister = (student) => async() => {
         let result = await axiosPrivate.post(`/BackStudents/back/${student.ID}`,{data: student});
-        //result = await result.json();
         console.log(result);
         if(result.statusText === "OK"){
             toast.success('Registered as back successfully!', {
@@ -128,10 +110,6 @@ const AcademicRecords = () => {
     }
 
     const handleDownload = async() => {
-        //const result = await fetch(`http://localhost:3001/download/studentProfile/${sem}/${state.year}`);
-        // const res = await result.json();
-        // console.log(res);
-        // setDownloadData(res);
         csvExporter.generateCsv(students);
     }
 
@@ -214,7 +192,6 @@ const AcademicRecords = () => {
                         <td>
                             <button className='btn btn-primary mr-2' onClick={handleMarksUpdate(student)}>Update Marks</button>
                             <button className='btn btn-danger mr-2' onClick={handleBackRegister(student)}>Register as Back</button>
-                            {/* <button disabled={student.RESULT === "P"} className='btn btn-success mr-2' onClick={handleBackClear(student)}>Back Cleared</button> */}
                         </td>
                     </tr>
                 ))}
@@ -235,4 +212,4 @@ const AcademicRecords = () => {
      );
 }
  
-export default AcademicRecords;
+export default SubjectWiseRecord;

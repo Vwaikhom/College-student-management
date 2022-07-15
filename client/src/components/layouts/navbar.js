@@ -62,7 +62,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/1`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/1`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/1`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/1`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/1`}><button>Student subject combination</button></Link>
@@ -78,7 +86,16 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/2`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/2`}><button>Academic Records {(year)}</button></Link>
+                    {/* <Link to={`/academicRecords/${year}/2`}><button>Academic Records {(year)}</button></Link> */}
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/2`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/2`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/2`}><button>Student subject combination</button></Link>
@@ -94,7 +111,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/3`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/3`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/3`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/3`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/3`}><button>Student subject combination</button></Link>
@@ -110,7 +135,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/4`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/4`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/4`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/4`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/4`}><button>Student subject combination</button></Link>
@@ -126,7 +159,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/5`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/5`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/5`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/5`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/5`}><button>Student subject combination</button></Link>
@@ -142,7 +183,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/6`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/6`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/6`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/6`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/6`}><button>Student subject combination</button></Link>
@@ -158,7 +207,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/7`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/7`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/7`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/7`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/7`}><button>Student subject combination</button></Link>
@@ -174,7 +231,15 @@ const Navbar = () => {
                       <Link to={`/profile/${year}/8`}><button>Student Profiles {(year)}</button></Link>
                     </li>
                     <li>
-                    <Link to={`/academicRecords/${year}/8`}><button>Academic Records {(year)}</button></Link>
+                    <a className="dropdown-item" href="#">Academic Records &raquo;</a>
+                      <ul className="dropdown-menu dropdown-submenu">
+                        <li>
+                          <Link to={`/academicRecords/subjectWiseRecord/${year}/8`}><button>Subject Wise Records</button></Link>
+                        </li>
+                        <li>
+                          <Link to={`/academicRecords/studentWiseRecord/${year}/8`}><button>Student Wise Records</button></Link>
+                        </li>
+                      </ul>
                     </li>
                     <li>
                       <Link to={`/subjectCombination/${year}/8`}><button>Student subject combination</button></Link>

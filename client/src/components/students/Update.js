@@ -30,7 +30,7 @@ const Update = () => {
     {label: "Geography", value:"GEG", program:"BA"},                           
     {label: "History", value:"HIS", program:"BA"} ,                          
     {label: "Philosophy", value:"PHI", program:"BA"},                           
-    {label: "Physcholofy", value:"PSC", program:"BA"} ,                          
+    {label: "PolScience", value:"PSC", program:"BA"} ,                          
     {label: "Education", value:"EDN", program:"BA"}                           
   ]
 

@@ -8,16 +8,22 @@ const profileRoutes = require('./routes/profile/index');
 const subjectCombinationRoutes = require('./routes/subjectCombination/index'); 
 const downloadManager = require('./routes/downloads/index')
 const backStudentRoute = require('./routes/back/index')
+const studentWise = require('./routes/academicRecord/studentWise/index');
+const subjectWise = require('./routes/academicRecord/subjectWise/index');
 const verifyJWT = require('./middleware/verifyJWT');
 const jwt = require('jsonwebtoken');
 const verifyRoles = require('./middleware/verifyRoles');
 const excel = require('exceljs');
 const bcrypt = require('bcrypt');
+const https = require('https');
+const path = require('path');
+const fs = require('fs');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const queryAsync = require('./db/connection');
 const {handleRefreshToken} = require('./controllers/refreshToken');
 const {handleLogout} = require('./controllers/logoutController');
+const {handleLogin} = require('./controllers/loginController');
 
 const sql1 = 'SELECT COUNT(*) AS numRows FROM student_fee f JOIN student_semester sem ON f.STUDENT_SEMESTER_ID = sem.ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?';
 const sql2 = 'SELECT s.STUDENT_NAME, S.ID AS STUDENT_ID, f.EXM_FEE, f.EXM_FEE_PHASE,(SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?';
@@ -25,10 +31,11 @@ const sql3 = 'SELECT COUNT(*) AS numRows FROM student_semester sem JOIN student_
 const sql4 = 'SELECT s.STUDENT_NAME, S.ID AS STUDENT_ID, f.ADM_FEE, (SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?';
 const sql5 = 'SELECT COUNT(*) AS numRows FROM student_semester sem JOIN student_fee f on sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?';
 const sql6 = 'SELECT s.ID, s.STUDENT_NAME, sem.SEM_YEAR, sem.SEMESTER, sem.PROMOTED, f.ADM_FEE,f.EXM_FEE,f.EXM_FEE_PHASE, (SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON f.STUDENT_SEMESTER_ID = sem.ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? ORDER BY BACK_SUBS';
-const sql7 = 'SELECT COUNT(*) AS numRows FROM academic_record a JOIN student_semester sem ON a.STUDENT_SEMESTER_ID = sem.ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?';
-const sql8 = `SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER as CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE, a.IA, a.EA, a.RESULT FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?`
-const sqlAdmissionStudent = 'SELECT s.STUDENT_NAME, S.ID AS STUDENT_ID, f.ADM_FEE,(SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND s.STUDENT_NAME LIKE ';
-const sqlExaminationStudent = 'SELECT s.STUDENT_NAME, S.ID AS STUDENT_ID, f.EXM_FEE, f.EXM_FEE_PHASE,(SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND s.STUDENT_NAME LIKE ';
+const sql9 = 'SELECT s.ID, s.STUDENT_NAME, sem.SEM_YEAR, sem.SEMESTER, sem.PROMOTED, f.ADM_FEE,f.EXM_FEE,f.EXM_FEE_PHASE, (SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON f.STUDENT_SEMESTER_ID = sem.ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND s.STUDENT_NAME LIKE #';
+const sqlAdmissionStudent = 'SELECT s.STUDENT_NAME, S.ID AS STUDENT_ID, f.ADM_FEE,(SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND s.STUDENT_NAME LIKE #';
+const sqlExaminationStudent = 'SELECT s.STUDENT_NAME, S.ID AS STUDENT_ID, f.EXM_FEE, f.EXM_FEE_PHASE,(SELECT COUNT(*) FROM back_student WHERE STUDENT_ID = s.ID AND BACK_CLEARED = "N") AS BACK_SUBS FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN student_fee f ON sem.ID = f.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND s.STUDENT_NAME LIKE #';
+
+
 const credentials = require('./middleware/credentials');
 const corsOptions  = require('./config/corsOptions');
 
@@ -39,12 +46,6 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// app.use(cors({
-//     origin: ["http://localhost:3000"],
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true
-// }));
-
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -53,7 +54,7 @@ app.use(session({
     key: "userId",
     secret: "This should be a better secret",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, 
     cookie: {
         expires: 60 * 60 * 24,
     },
@@ -63,7 +64,11 @@ app.use('/profile', profileRoutes);
 app.use('/subjectCombination', subjectCombinationRoutes);
 app.use('/download', downloadManager);
 app.use('/BackStudents', backStudentRoute);
-
+app.use('/AcademicRecords/studentWise', studentWise);
+app.use('/AcademicRecords/subjectWise', subjectWise);
+app.get('/refresh', handleRefreshToken);
+app.get('/logout', handleLogout);
+app.post('/login', handleLogin);
 
 app.post('/updateHonours/:course/:sem/:id', verifyJWT,verifyRoles("Admin"), (req,res) => {
     const {course,sem,id} = req.params;
@@ -127,7 +132,7 @@ app.put('/AdmissionFee/:sem/:year/:id', verifyJWT, verifyRoles("Admin"),(req,res
     })
 })
 
-app.get('/Promotion/:sem/:year', paginate(sql5,sql6), (req,res) => {
+app.get('/Promotion/:sem/:year', paginate(sql5,sql6,sql9), (req,res) => {
     res.json(res.paginatedResult);
 })
 
@@ -162,12 +167,6 @@ app.post('/Demotion/:sem/:year/:id',verifyJWT,verifyRoles("Admin"), (req,res) =>
     year = parseInt(year);
     id = parseInt(id);
 
-    // if(sem % 2 === 0){
-    //     year = year + 1;
-    // }
-    
-    // sem = sem + 1;
-
     console.log(sem,year,id);
     queryAsync(`CALL DEMOTE(${sem}, ${year}, ${id})`)
     .then((result) => {
@@ -177,135 +176,16 @@ app.post('/Demotion/:sem/:year/:id',verifyJWT,verifyRoles("Admin"), (req,res) =>
 
 })
 
-app.get('/AcademicRecords/:sem/:year', paginate(sql7, sql8), (req,res) => {
-    res.json(res.paginatedResult);
+const sslServer = https.createServer({
+   key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+   cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')) 
+},app)
+
+app.use('/', (req, res, next) => {
+    res.send("Hello from SSL server");
+    next();
 })
 
-app.get('/SubjectWiseRecord/:sem/:year', (req,res) => {
-    //res.json(res.paginatedResult);
-    var {sem,year} = req.params;
-    var sub = req.query.subject;
-    sub = `'${sub}'`;
-    console.log(sem,year,sub);
-    //console.log(req.query);
-    if(req.query.back === 'false'){
-        queryAsync("SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER AS CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE,a.IA,a.EA,a.RESULT FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ? AND SUB_CODE = " + sub, [sem,year])
-        .then((results) => {
-            var responsePayload = {
-                results: results,
-                pagination: {
-                page:1,
-                }
-            }
-            res.paginatedResult = responsePayload;
-            //next();
-            //console.log(res.paginatedResult);
-            res.json(res.paginatedResult);
-            //console.log(results);
-        })
-        .catch((err) => {
-            res.json({err: err})
-        })
-    }
-    else{
-        queryAsync("SELECT s.STUDENT_NAME, s.ID, sem.SEMESTER AS CURRENT_SEMESTER, sem.SEM_YEAR, a.COURSE, a.SUB_CODE,a.IA,a.EA,a.RESULT FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID LEFT JOIN back_student b ON s.ID = b.STUDENT_ID AND a.SUB_CODE = b.SUB_CODE WHERE sem.SEM_YEAR = 2021 AND a.SUB_CODE = " + sub + " AND sem.SEMESTER = 1 OR b.BACK_CLEARED = 'N' AND b.SUB_CODE = " + sub, [sem,year])
-        .then((results) => {
-            var responsePayload = {
-                results: results,
-                pagination: {
-                page:1,
-                }
-            }
-            res.paginatedResult = responsePayload;
-            //next();
-            //console.log(res.paginatedResult);
-            res.json(res.paginatedResult);
-            //console.log(results);
-        })
-        .catch((err) => {
-            res.json({err: err})
-        })
-    }
-})
-
-app.put('/updateAcademicRecord/:sem/:year/:id', verifyJWT,verifyRoles("Admin","Editor"), (req,res) => {
-    const {sem,year,id} = req.params;
-    //console.log(req.body.data.IA); 
-    const IA = req.body.data.IA;
-    const EA = req.body.data.EA;
-    let RESULT = req.body.data.RESULT;
-    let SUB_CODE = req.body.data.SUB_CODE;
-    //RESULT = `'${RESULT}'`; 
-    SUB_CODE = `'${SUB_CODE}'`;
-    console.log(RESULT,SUB_CODE);
-
-    queryAsync("UPDATE academic_record a JOIN student_semester sem ON sem.ID = a.STUDENT_SEMESTER_ID JOIN student_profile s ON sem.STUDENT_PROFILE_ID = s.ID AND sem.SEMESTER = ? AND sem.SEM_YEAR = ? SET a.IA = ?, a.EA = ?, a.RESULT = ? WHERE s.ID = ? AND a.SUB_CODE = " + SUB_CODE, [sem,year,IA,EA,RESULT,id])
-    .then((result) => {
-        console.log(result);
-        res.json(result);
-    })
-})
-
-app.post('/login', (req,res) => {
-    const username = req.body.user;
-    const password = req.body.pwd;
-
-    queryAsync('SELECT username, password,role FROM user WHERE username = ?', username)
-    .then((response) => {
-        //console.log(response[0]);
-        if(response.length > 0){
-            bcrypt.compare(password, response[0].password,(err,result) => {
-                if(result){
-                    console.log(result);
-
-                    const user = response[0].username;
-                    const role = response[0].role;
-
-                    const token = jwt.sign(
-                        {
-                            "UserInfo": {
-                                "username": user,
-                                "role": role
-                            }
-                        }, 
-                        process.env.TOKEN,{
-                        expiresIn: 300,             
-                    })
-                    const refreshToken = jwt.sign(
-                        {
-                            "UserInfo": {
-                                "username": user,
-                                "role": role
-                            }
-                        }, 
-                        process.env.REFRESH_TOKEN,{
-                        expiresIn: 60 * 60 * 24             
-                    })
-                    queryAsync('UPDATE user SET refresh_token = ? WHERE username = ?', [refreshToken, user])
-                    .then((response) => {
-                        console.log(response);
-                    })
-                    //req.session.user = result;
-                    res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }); 
-                    res.json({auth: true, accessToken: token, role: role});
-                } else{
-                    //console.log(err);
-                    res.status(401).json({"message": "Wrong username or password"});
-                }
-            })
-        }
-        else{
-            res.send({auth: false, message: "User does not exist"})
-        }
-    })
-    .catch((err) => {
-        res.sendStatus(401);
-    })
-})
-
-app.get('/refresh', handleRefreshToken);
-app.get('/logout', handleLogout);
-
-app.listen(3001, () => {
+sslServer.listen(3001, () => {
     console.log("Listening on port 3001");
 })

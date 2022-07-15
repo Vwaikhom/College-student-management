@@ -8,9 +8,7 @@ const verifyRoles = require('../../middleware/verifyRoles');
 
 let sql = sqlqueries.SQLQueries.models.find(ele => {return (ele.modelName === "student-profile")})
 const pagination = sql.Queires.pagination;
-const sql3 = "SELECT s.*, sem.DSC,sem.DSE,sem.GEC,sem.AECC,sem.SEC,sem.VAC1,sem.VAC2 FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID \
-WHERE sem.SEMESTER = ? AND sem.SEM_YEAR = ?  AND sem.PRMOTED = 'N' AND s.STUDENT_NAME LIKE ";
-
+const sql3 = "SELECT s.*, sem.DSC,sem.DSE,sem.GEC,sem.AECC,sem.SEC,sem.VAC1,sem.VAC2 FROM student_profile s JOIN student_semester sem ON s.ID = sem.STUDENT_PROFILE_ID AND sem.SEMESTER = ? AND sem.SEM_YEAR = ?  AND sem.PROMOTED = 'N' WHERE s.STUDENT_NAME LIKE # OR s.COLLEGE_ROLL_NO LIKE #";
 
 router.route('/')
     .post(verifyJWT,verifyRoles("Admin","Editor"),(req,res) => {
@@ -45,7 +43,8 @@ router.route('/')
         })
     })
     .catch((err) => {
-        res.err({err: err});
+        console.log(err);
+        res.json({err: err});
     })
 });
 

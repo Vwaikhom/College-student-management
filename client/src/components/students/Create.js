@@ -11,7 +11,6 @@ const Create = () => {
   const [STUDENT_NAME,setStudentName] = useState("");
   const [UHID,setUHID] = useState(null);
   const [SEX,setSex] = useState("");
-  const [EXM_ID, setEXMID] = useState("");
   const [DATE_FORM_SUB, setDateFormSub] = useState(new Date());
   const [PHOTO_URL, setPhotoURL] = useState("");
   const [PRESENT_ADDRESS, setPresentAddress] = useState("");
@@ -27,7 +26,6 @@ const Create = () => {
   const [EMAIL_ID, setEmail] = useState("");
   const [STUDENT_MOBILE, setStudentPhoneNo] = useState("");
   const [CATEGORY, setCategory] = useState("");
-  const [ENROLL_ID, setEnroll] = useState("");
   const [CLASS12_BOARD, setClass12Board] = useState("");
   const [CLASS12_ROLL, setclass12Roll] = useState("");
   const [PASSOUT_YEAR, setPassOutYear] = useState(0);
@@ -54,7 +52,7 @@ const Create = () => {
     {label: "History", value:"HIS", program:"BA"} ,                          
     {label: "Philosophy", value:"PHI", program:"BA"},                           
     {label: "PolScience", value:"PSC", program:"BA"} ,                          
-    {label: "Education", value:"EDU", program:"BA"}                           
+    {label: "Education", value:"EDN", program:"BA"}                           
   ]
 
   const sex = [
@@ -107,8 +105,6 @@ const Create = () => {
         PASSOUT_YEAR,
         PROGRAM,
         SUB,
-        EXM_ID,
-        ENROLL_ID,
         UNIV_REG_ID,
         UNIV_EXM_ROLL
     }
@@ -146,28 +142,6 @@ const Create = () => {
               name="STUDENT_NAME"
               value={STUDENT_NAME}
               onChange={(e) => setStudentName(e.target.value)}/>
-          </div>
-          <label>EXAM ID</label>
-          <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter Exam ID"
-              name="EXM_ID"
-              value={EXM_ID}
-              onChange={(e) => setEXMID(e.target.value)}
-            />
-          </div>
-          <label>Enrollment ID</label>
-          <div className="form-group mt-3">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter Enrollment ID"
-              name="ENROLL_ID"
-              value={ENROLL_ID}
-              onChange={(e) => setEnroll(e.target.value)}
-            />
           </div>
           <label>University Registration ID</label>
           <div className="form-group mt-3">

@@ -9,15 +9,17 @@ BEGIN
 	DECLARE ACADEMIC_YEAR INT default 0;
     DECLARE SUB_ID INT default 0;
 	IF NEW.COURSE = 'BS' THEN
-		SET bsc_counter = (SELECT COUNT(*) FROM test_profile WHERE COURSE = 'BS') + 1;
+		SET bsc_counter = (SELECT COUNT(*) FROM student_profile WHERE COURSE = 'BS') + 1;
         SET ACADEMIC_YEAR = (SELECT DATE_FORMAT(CURDATE(), '%y'));
         SET SUB_ID = (SELECT ID FROM honours_subject WHERE SUB_CODE = NEW.SUB);
 		SET NEW.COLLEGE_ROLL_NO = CONCAT('11',ACADEMIC_YEAR,LPAD((SUB_ID),2,0),LPAD((bsc_counter),4,0));
+        SET NEW.ENROLLMENT_ID = CONCAT('11',ACADEMIC_YEAR,LPAD((SUB_ID),2,0),LPAD((bsc_counter),4,0));
 	ELSEIF NEW.COURSE = 'BA' THEN
-		SET ba_counter = (SELECT COUNT(*) FROM test_profile WHERE COURSE = 'BA') + 1;
+		SET ba_counter = (SELECT COUNT(*) FROM student_profile WHERE COURSE = 'BA') + 1;
         SET ACADEMIC_YEAR = (SELECT DATE_FORMAT(CURDATE(), '%y'));
         SET SUB_ID = (SELECT ID FROM honours_subject WHERE SUB_CODE = NEW.SUB);
         SET NEW.COLLEGE_ROLL_NO = CONCAT('10',ACADEMIC_YEAR,LPAD((SUB_ID),2,0),LPAD((ba_counter),4,0));
+        SET NEW.ENROLLMENT_ID = CONCAT('10',ACADEMIC_YEAR,LPAD((SUB_ID),2,0),LPAD((ba_counter),4,0));
 	END IF;
 END$$
 DELIMITER ;

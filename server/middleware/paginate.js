@@ -9,7 +9,8 @@ function paginate(sql1, sql2, sql3){
         search += req.query.title;
         search += '%';
         search = `'${search}'`;
-        queryAsync(sql3 + search,[sem,year])
+        var newSql3 = sql3.replace(/#/g,search)
+        queryAsync(newSql3, [sem,year])
         .then((results) => {
           var responsePayload = {
             results: results,
@@ -25,15 +26,7 @@ function paginate(sql1, sql2, sql3){
           res.json({err : e});
         })
       }
-      // else if(req.query.subject){
-      //   var sub = req.query.subject;
-      //   queryAsync('SELECT s.STUDENT_NAME, s.ID, a.COURSE, a.SUB_CODE FROM student_profile s JOIN student_semester sem \
-      //   ON s.ID = sem.STUDENT_PROFILE_ID JOIN academic_record a ON sem.ID = a.STUDENT_SEMESTER_ID WHERE sem.SEMESTER = ? \
-      //   AND sem.SEM_YEAR = ? AND SUB_CODE = ?', [sem,year,subject])
-      //   .then((results) => {
 
-      //   })
-      // }
       else{
         var numPerPage = parseInt(req.query.npp, 10) || 20;
         var page = parseInt(req.query.page, 10) || 1;
