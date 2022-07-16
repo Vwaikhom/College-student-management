@@ -26,10 +26,10 @@ router.route('/:year/:sem/:id')
         let subjectSize = req.body.data.subjects.length;
 
         for(let i = 0; i < subjectSize; i++){
-            query += `UPDATE academic_record a JOIN student_semester sem ON sem.ID = a.STUDENT_SEMESTER_ID JOIN student_profile s ON sem.STUDENT_PROFILE_ID = s.ID AND sem.SEMESTER = ${sem} AND sem.SEM_YEAR = ${year} SET IA = ${req.body.data.subjects[i].IA}, EA = ${req.body.data.subjects[i].IA},RESULT = '${req.body.data.subjects[i].RESULT}' WHERE SUB_CODE = '${req.body.data.subjects[i].SUB_CODE}' AND s.ID = ${id};`;
+            query += `UPDATE academic_record a JOIN student_semester sem ON sem.ID = a.STUDENT_SEMESTER_ID JOIN student_profile s ON sem.STUDENT_PROFILE_ID = s.ID AND sem.SEMESTER = ${sem} AND sem.SEM_YEAR = ${year} SET IA = ${req.body.data.subjects[i].IA}, EA = ${req.body.data.subjects[i].EA},RESULT = '${req.body.data.subjects[i].RESULT}' WHERE SUB_CODE = '${req.body.data.subjects[i].SUB_CODE}' AND s.ID = ${id};`;
 
             if(req.body.data.subjects[i].RESULT === "F"){
-                query += `INSERT INTO back_student (SUB_CODE,EA,BACK_CLEARED,STUDENT_ID) VALUES('${req.body.data.subjects[i].SUB_CODE}',${req.body.data.subjects[i].IA},"N",${id});`;
+                query += `INSERT INTO back_student (SUB_CODE,BACK_CLEARED,STUDENT_ID) VALUES('${req.body.data.subjects[i].SUB_CODE}',"N",${id});`;
             }
         }
         

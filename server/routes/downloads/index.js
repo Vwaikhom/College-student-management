@@ -3,7 +3,6 @@ const router = express.Router({ mergeParams: true });
 const paginate = require('../../middleware/paginate');
 const sqlqueries = require('../../db/sql.json');
 const queryAsync = require('../../db/connection');
-const { route } = require('../profile');
 
 router.route('/studentProfile/:sem/:year')
     .get( (req,res) => {

@@ -33,11 +33,9 @@ router.route('/')
 router.route('/back/:id')
     .post(verifyJWT,verifyRoles("Admin","Editor"), (req,res) => {
         const {id} = req.params;
-        const IA = req.body.data.IA;
-        const EA = req.body.data.EA;
         let sub = req.body.data.SUB_CODE;
         //sub = `'${sub}'`; 
-        queryAsync('INSERT INTO back_student (SUB_CODE,EA,BACK_CLEARED,STUDENT_ID) VALUES (?,?,"N",?)',[sub,EA,id])
+        queryAsync('INSERT INTO back_student (SUB_CODE,BACK_CLEARED,STUDENT_ID) VALUES (?,"N",?)',[sub,id])
         .then((result) => {
             console.log(result);
             res.json(result);
@@ -48,7 +46,7 @@ router.route('/back/:id')
 router.route('/:id')
     .put(verifyJWT, verifyRoles("Admin"),(req,res) => {
         const {id} = req.params;
-        const IA = req.body.data.IA;
+        //const IA = req.body.data.IA;
         const EA = req.body.data.EA;
         let sub = req.body.data.SUB_CODE;
         sub = `'${sub}'`; 
@@ -62,7 +60,7 @@ router.route('/:id')
             })
         }
         else{
-            queryAsync('UPDATE back_student SET IA = ?, EA = ? WHERE STUDENT_ID = ?', [IA,EA,id])
+            queryAsync('UPDATE back_student SET EA = ? WHERE STUDENT_ID = ?', [EA,id])
             .then((result) => {
                 console.log(result);
                 res.json(result);

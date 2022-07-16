@@ -36,12 +36,13 @@ export const App = () => {
         <Routes>
           <Route path='*' element={<NotFound />} />
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/profile/:year/:sem" element={<Profile />} />
-          <Route exact path="/profile/:year/:sem/:id" element={<View />} />
+
 
           <Route path="/Login" element={<Login />} />
 
           <Route element={<PersistLogin />}>
+            <Route exact path="/profile/:year/:sem" element={<Profile />} />
+            <Route exact path="/profile/:year/:sem/:id" element={<View />} />
             <Route element={<RequireAuth allowedRoles={["Admin","Editor"]}/>} > 
               <Route exact path="/academicRecords/studentWiseRecord/:year/:sem" element={<StudentWiseRecord />} />
               <Route exact path="/academicRecords/subjectWiseRecord/:year/:sem" element={<SubjectWiseRecord />} />

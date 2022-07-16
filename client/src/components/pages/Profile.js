@@ -76,10 +76,11 @@ const Profile = () => {
   }
   
   const handleDownload = async() => {
-    const result = await fetch(`/download/studentProfile/${sem}/${year}`);
-    const res = await result.json();
+    const result = await axiosPrivate(`/download/studentProfile/${sem}/${year}`);
+    //const res = await result.json();
     //console.log(res);
-    csvExporter.generateCsv(res);
+    console.log(result);
+    csvExporter.generateCsv(result.data);
   };
 
   // const handleDelete = (student) => async() => {

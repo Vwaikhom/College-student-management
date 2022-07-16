@@ -21,6 +21,7 @@ export const MUIMarks = (props) => {
 
     const [open, setOpen] = useState(false);
     const [subject,setSubject] = useState([]);
+    //const [updateSubject,setUpdateSubject] = useState([]);
     //const [updateData, setUpdateData] = useState({});
     const { auth } = useAuth();
 
@@ -34,7 +35,7 @@ export const MUIMarks = (props) => {
 
         data.subjects = subject;
         data.ID = props.data.ID;
-
+        //console.log(data);
         const result = await axiosPrivate.post(`/AcademicRecords/studentWise/${props.data.year}/${props.data.sem}/${props.data.ID}`,
             {data: data}
         );
@@ -63,6 +64,7 @@ export const MUIMarks = (props) => {
     const handleOpen = () => {
         setOpen(true);
         setSubject(props.data.student.SUBJECTS);
+        //setUpdateSubject(props.data.student.SUBJECTS);
     }
 
     const handleClose = () => {
@@ -78,7 +80,7 @@ export const MUIMarks = (props) => {
             <DialogContent>
                 <DialogContentText id='dialog-description'><strong>{props.data.student.STUDENT_NAME}</strong></DialogContentText>
                 <br />
-                {props.data.student.SUBJECTS.map((sub,index) => (
+                {subject.map((sub,index) => (
                     <>       
                     <strong>{sub.SUB_CODE}</strong>     
                     <br />          
