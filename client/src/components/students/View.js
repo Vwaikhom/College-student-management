@@ -81,6 +81,9 @@ const View = () => {
         <li className="list-group-item">
           <b>Honours Subject:</b> {student.SUB}
         </li>
+        <li className="list-group-item">
+          <b>Course:</b> {student.COURSE}
+        </li>
       </ul>
 
       <Link className="btn btn-primary" id="button" to="/">

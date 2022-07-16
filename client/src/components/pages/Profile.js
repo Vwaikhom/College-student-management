@@ -77,25 +77,9 @@ const Profile = () => {
   
   const handleDownload = async() => {
     const result = await axiosPrivate(`/download/studentProfile/${sem}/${year}`);
-    //const res = await result.json();
-    //console.log(res);
     console.log(result);
     csvExporter.generateCsv(result.data);
   };
-
-  // const handleDelete = (student) => async() => {
-  //   // console.log(student);
-  //   // const result = await axios.delete(`/profile/${state.year}/${sem}/${student.ID}`);
-  //   // console.log(result);
-  //   // setToggle(!toggle);
-  //   <MUIDialog></MUIDialog>
-  // }
-
-  // const openDialog = () => {
-  //   return(
-  //     <MUIDialog />
-  //   );
-  // };
 
   return (
     <div className="container-fluid">
@@ -155,7 +139,6 @@ const Profile = () => {
         </tbody>
       </table>
       <Pagination perPage={perPage} numberofPages={totalPages} paginate = {paginate}/>
-      <button onClick={() => refresh()}>Refresh</button>
     </div>
   );
 };

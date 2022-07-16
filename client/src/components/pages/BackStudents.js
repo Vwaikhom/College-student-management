@@ -117,7 +117,7 @@ const BackStudents = () => {
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="Search by Subject"
+                    placeholder="Search by Name or College Roll No"
                     value={searchName}
                     onChange={onChangeSearchName}
                 />
@@ -141,7 +141,7 @@ const BackStudents = () => {
                 <tr className="table-dark">
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">ID</th>
+                    <th scope="col">College Roll Number</th>
                     <th scope="col">Current Semester</th>
                     <th scope="col">Academic Year</th>
                     <th scope="col">Course</th>
@@ -155,7 +155,7 @@ const BackStudents = () => {
                     <tr>
                         <th scope="row">{index + 1}</th>
                         <td>{student.STUDENT_NAME}</td>
-                        <td>{student.ID}</td>
+                        <td>{student.COLLEGE_ROLL_NO}</td>
                         <td>{student.CURRENT_SEMESTER}</td>
                         <td>{student.SEM_YEAR}</td>
                         <td>{student.COURSE}</td>
